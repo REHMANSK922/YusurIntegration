@@ -1,0 +1,87 @@
+[
+  {
+    "ContainingType": "YusurIntegration.Controllers.YusurWebhookController",
+    "Method": "Authorization",
+    "RelativePath": "api/webhooks/yusur/authorization-response",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "YusurIntegration.DTOs.YusurPayloads\u002BAuthorizationResponseDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YusurIntegration.Controllers.YusurWebhookController",
+    "Method": "NewOrder",
+    "RelativePath": "api/webhooks/yusur/new-order",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "YusurIntegration.DTOs.YusurPayloads\u002BNewOrderDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YusurIntegration.Controllers.YusurWebhookController",
+    "Method": "Allocation",
+    "RelativePath": "api/webhooks/yusur/order-allocation",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "YusurIntegration.DTOs.YusurPayloads\u002BOrderAllocationDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YusurIntegration.Controllers.YusurWebhookController",
+    "Method": "StatusUpdate",
+    "RelativePath": "api/webhooks/yusur/status-update",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "YusurIntegration.DTOs.YusurPayloads\u002BStatusUpdateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YusurIntegration.Controllers.WeatherForecastController",
+    "Method": "Get",
+    "RelativePath": "WeatherForecast",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[YusurIntegration.WeatherForecast, YusurIntegration, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "EndpointName": "GetWeatherForecast"
+  }
+]

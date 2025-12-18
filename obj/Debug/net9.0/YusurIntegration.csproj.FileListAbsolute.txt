@@ -1,0 +1,9 @@
+D:\COREPROJECTS\Yusur\YusurIntegration\obj\Debug\net9.0\YusurIntegration.csproj.AssemblyReference.cache
+D:\COREPROJECTS\Yusur\YusurIntegration\obj\Debug\net9.0\rpswa.dswa.cache.json
+D:\COREPROJECTS\Yusur\YusurIntegration\obj\Debug\net9.0\YusurIntegration.GeneratedMSBuildEditorConfig.editorconfig
+D:\COREPROJECTS\Yusur\YusurIntegration\obj\Debug\net9.0\YusurIntegration.AssemblyInfoInputs.cache
+D:\COREPROJECTS\Yusur\YusurIntegration\obj\Debug\net9.0\YusurIntegration.AssemblyInfo.cs
+D:\COREPROJECTS\Yusur\YusurIntegration\obj\Debug\net9.0\YusurIntegration.csproj.CoreCompileInputs.cache
+D:\COREPROJECTS\Yusur\YusurIntegration\obj\Debug\net9.0\YusurIntegration.MvcApplicationPartsAssemblyInfo.cs
+D:\COREPROJECTS\Yusur\YusurIntegration\obj\Debug\net9.0\YusurIntegration.MvcApplicationPartsAssemblyInfo.cache
+D:\COREPROJECTS\Yusur\YusurIntegration\obj\Debug\net9.0\YusurIntegration.sourcelink.json

@@ -1,0 +1,109 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\services\\approveddrugservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:services\\approveddrugservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\repositories\\iapproveddrugrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:repositories\\iapproveddrugrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\models\\wasfatydrugs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:models\\wasfatydrugs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 260,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "OrderService.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\OrderService.cs",
+              "RelativeDocumentMoniker": "Services\\OrderService.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\OrderService.cs",
+              "RelativeToolTip": "Services\\OrderService.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAIwEAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-18T09:21:45.831Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "WasfatyDrugs.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\WasfatyDrugs.cs",
+              "RelativeDocumentMoniker": "Models\\WasfatyDrugs.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\WasfatyDrugs.cs",
+              "RelativeToolTip": "Models\\WasfatyDrugs.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-17T08:53:39.064Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Models\\User.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\User.cs",
+              "RelativeToolTip": "Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-17T08:52:56.916Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IApprovedDrugRepository.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Repositories\\IApprovedDrugRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\IApprovedDrugRepository.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Repositories\\IApprovedDrugRepository.cs",
+              "RelativeToolTip": "Repositories\\IApprovedDrugRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBcAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-17T05:11:17.87Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ApprovedDrugService.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\ApprovedDrugService.cs",
+              "RelativeDocumentMoniker": "Services\\ApprovedDrugService.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\ApprovedDrugService.cs",
+              "RelativeToolTip": "Services\\ApprovedDrugService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-17T05:10:11.978Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -2,7 +2,8 @@
 using System.Diagnostics;
 using YusurIntegration.DTOs;
 using YusurIntegration.Models;
-using YusurIntegration.Repositories;
+using YusurIntegration.Repositories.Interfaces;
+using YusurIntegration.Services.Interfaces;
 
 namespace YusurIntegration.Services
 {
@@ -21,8 +22,6 @@ namespace YusurIntegration.Services
             _approvedRepo = approvedRepo;
             _stockRepo = stockRepo;
         }
-
-
 
         public async Task<ActivityValidationResultDto> ValidateActivityAsync(
             string branchLicense,
@@ -56,6 +55,9 @@ namespace YusurIntegration.Services
             return ActivityValidationResultDto.Fail(
                 "No approved drug with sufficient stock");
         }
+ 
+
+
 
 
         //public async Task<ApprovedDrug?> GetBestApprovedDrugAsync(

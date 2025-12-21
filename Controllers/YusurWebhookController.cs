@@ -36,10 +36,20 @@ namespace YusurIntegration.Controllers
             if (!ValidateSecret()) return Unauthorized();
 
             var payload = System.Text.Json.JsonSerializer.Serialize(dto);
+
+
+            //dto.orderId
+
             await _db.WebhookLogs.AddAsync(new Models.WebhookLog { WebhookType = "notifyNewOrder", Payload = payload, BranchLicense = dto.branchLicense });
             await _db.SaveChangesAsync();
+
             await _orders.HandleNewOrderAsync(dto);
+
+
             return Ok(new { status = "received" });
+
+
+
         }
         [HttpPost("notifyOrderAllocation")]
         public async Task<IActionResult> NotifyOrderAllocation([FromBody] OrderAllocationDto dto)
@@ -50,8 +60,6 @@ namespace YusurIntegration.Controllers
             await _db.WebhookLogs.AddAsync(new Models.WebhookLog { WebhookType = "notifyOrderAllocation", Payload = payload, BranchLicense = dto.branchLicense });
             await _db.SaveChangesAsync();
             await _orders.HandleOrderAllocationAsync(dto);
-
-
             return Ok();
         }
         [HttpPost("notifyAuthorizationResponseReceived")]

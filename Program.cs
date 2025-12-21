@@ -1,11 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using YusurIntegration.Data;
+using YusurIntegration.Hubs;
 using YusurIntegration.Repositories;
+using YusurIntegration.Repositories.Interfaces;
 using YusurIntegration.Services;
+using YusurIntegration.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 
 
@@ -17,20 +19,34 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddDbContext<StockDbContext>(options =>
     options.UseFirebird(builder.Configuration.GetConnectionString("Firebirdstock")));
 
+builder.Services.AddDbContext<StockDbContext>(options =>
+    options.UseFirebird(builder.Configuration.GetConnectionString("FirebirdProducts")));
 
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddScoped<IPendingMessageRepository, PendingMessageRepository>();
-builder.Services.AddScoped<IStockRepository, StockRepository>();
+
+
 builder.Services.AddScoped<IApprovedDrugRepository, ApprovedDrugRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IWasfatyDrugRepository, WasfatyDrugRepository>();
+builder.Services.AddScoped<IStockRepository, StockRepository>();
+builder.Services.AddScoped<IPendingMessageRepository, PendingMessageRepository>();
 
 
 
-builder.Services.AddScoped<OrderService>();
-builder.Services.AddScoped<StockService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IStockService, StockService>();
+builder.Services.AddScoped<IOrderValidationService, OrderValidationService>();
+builder.Services.AddScoped<IApprovedDrugService, ApprovedDrugService>();
+
+
+
+builder.Services.AddSingleton<ConnectionManager>();
+builder.Services.AddSignalR();
+
+
 
 builder.Services.AddHttpClient<YusurApiClient>();
-builder.Services.AddScoped<SignatureValidationService>();
 
+builder.Services.AddScoped<SignatureValidationService>();
 
 
 
@@ -40,6 +56,9 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddEndpointsApiExplorer();
+
+
+
 
 builder.Services.AddCors(options =>
 {
@@ -78,7 +97,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
+app.MapHub<YusurHub>("/yusurhub");
 app.Run();
+
+
 
 
 // Add services to the container.

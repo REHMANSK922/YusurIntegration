@@ -1,6 +1,7 @@
 ﻿using YusurIntegration.Models;
 using YusurIntegration.Data;
 using Microsoft.EntityFrameworkCore;
+using YusurIntegration.Repositories.Interfaces;
 namespace YusurIntegration.Repositories
 {
     public class PendingMessageRepository : IPendingMessageRepository

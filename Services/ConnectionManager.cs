@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace YusurIntegration.Services
 {
@@ -84,6 +85,13 @@ namespace YusurIntegration.Services
             }
             return Array.Empty<string>();
         }
+        public bool IsConnected(string storeId)
+        {
+            return _map.ContainsKey(storeId);
+        }
+
+
+
     }
 
 

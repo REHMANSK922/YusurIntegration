@@ -26,6 +26,9 @@ namespace YusurIntegration.Hubs
             _cm.RemoveByConnectionId(Context.ConnectionId);
             return base.OnDisconnectedAsync(exception);
         }
+
+
+
         public async Task Acknowledge(string messageId)
         {
             //if (string.IsNullOrWhiteSpace(messageId)) return;

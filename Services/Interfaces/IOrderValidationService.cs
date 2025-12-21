@@ -1,7 +1,7 @@
 ﻿using YusurIntegration.DTOs;
 using YusurIntegration.Models;
 
-namespace YusurIntegration.Services
+namespace YusurIntegration.Services.Interfaces
 {
     public interface IOrderValidationService
     {

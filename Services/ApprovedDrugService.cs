@@ -1,9 +1,10 @@
 ﻿using YusurIntegration.Models;
-using YusurIntegration.Repositories;
+using YusurIntegration.Repositories.Interfaces;
+using YusurIntegration.Services.Interfaces;
 
 namespace YusurIntegration.Services
 {
-    public class ApprovedDrugService
+    public class ApprovedDrugService: IApprovedDrugService
     {
         private readonly IApprovedDrugRepository _repo;
 
@@ -21,7 +22,7 @@ namespace YusurIntegration.Services
             await _repo.AddAsync(newDrug);
         }
 
-        public async Task MakeInactiveAsync(string itemno)
+        public async Task MakeInactiveAsync(string itemno,DateTime todate)
         {
             var drug = await _repo.GetActiveAsyncById(itemno);
             if (drug == null) return;

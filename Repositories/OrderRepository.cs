@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using YusurIntegration.Data;
 using YusurIntegration.Models;
+using YusurIntegration.Repositories.Interfaces;
 
 namespace YusurIntegration.Repositories
 {
@@ -12,17 +13,14 @@ namespace YusurIntegration.Repositories
         {
             _db = db;
         }
-
         public Task<Order?> GetByOrderId(string orderId)
         {
  
            return _db.Orders
             .Include(x => x.Activities)
-            .ThenInclude(a => a.TradeDrugOptions)
+            .ThenInclude(a => a.TradeDrugs)
             .FirstOrDefaultAsync(x => x.OrderId == orderId);
-
         }
-
         public async Task SaveOrderAsync(Order order)
         {
             _db.Orders.Add(order);

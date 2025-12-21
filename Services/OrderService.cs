@@ -2,10 +2,11 @@
 using YusurIntegration.Data;
 using YusurIntegration.DTOs;
 using YusurIntegration.Models;
+using YusurIntegration.Services.Interfaces;
 using static YusurIntegration.DTOs.YusurPayloads;
 namespace YusurIntegration.Services
 {
-    public class OrderService
+    public class OrderService : IOrderService
     {
         private readonly AppDbContext _db;
         private readonly YusurApiClient _yusur;
@@ -28,9 +29,29 @@ namespace YusurIntegration.Services
                 VendorId = dto.vendorId,
                 BranchLicense = dto.branchLicense,
                 ErxReference = dto.erxReference,
-                PatientNationalId = dto.patient?.nationalId,
                 IsPickup = dto.isPickup,
-                Status = "RECEIVED"
+                Status = "RECEIVED",
+                Patient = dto.patient != null ? new Patient
+                {
+                    firstName = dto.patient.firstName,
+                    nationalId = dto.patient.nationalId,
+                    lastName = dto.patient.lastName,
+                    gender = dto.patient.gender,
+                    bloodGroup = dto.patient.bloodGroup
+                } : null,
+                ShippingAddress = dto.shippingAddress != null ? new ShippingAddress
+                {
+                    addressLine1 = dto.shippingAddress.addressLine1,
+                    addressLine2 = dto.shippingAddress.addressLine2,
+                    area = dto.shippingAddress.area,
+                    city = dto.shippingAddress.city,
+                    Coordinates = dto.shippingAddress.coordinates != null ? new Coordinates
+                    {
+                        latitude = dto.shippingAddress.coordinates != null ? dto.shippingAddress.coordinates.latitude : 0,
+                        longitude = dto.shippingAddress.coordinates != null ? dto.shippingAddress.coordinates.longitude : 0
+                    } : new Coordinates()
+                } : null,   
+
             };
 
             foreach (var act in dto.activities ?? new())
@@ -53,11 +74,13 @@ namespace YusurIntegration.Services
                     }
                 }
 
-                order.Activities.Add(a);
+               order.Activities.Add(a);
             }
+
 
             _db.Orders.Add(order);
             await _db.SaveChangesAsync();
+
 
             // basic auto allocation: pick first trade drug of each activity as selected
             foreach (var a in order.Activities)
@@ -77,17 +100,14 @@ namespace YusurIntegration.Services
                 if (te.IsValid)
                 {
                     a.SelectedTradeCode = te.DrugCode;
+                    a.SelectedQuantity = te.Quantity;
+                    a.Itemno = te.ItemNo;
                 }
             }
-
-
-
 
             order.Status = "ACCEPTED_BY_PROVIDER";
             _db.OrderStatusHistory.Add(new OrderStatusHistory { OrderId = order.Id, Status = order.Status });
             await _db.SaveChangesAsync();
-
-
 
             // call Yusur to accept order (send activities mapping)
             var activitiesForYusur = order.Activities.Select(x => new { id = x.ActivityIdFromYusur, tradeCode = x.SelectedTradeCode, quantity = x.SelectedQuantity }).ToList();
@@ -115,7 +135,7 @@ namespace YusurIntegration.Services
 
         public async Task HandleAuthorizationResponseAsync(AuthorizationResponseDto dto)
         {
-            var order = await _db.Orders.Include(o => o.Activities).ThenInclude(a => a.TradeDrugOptions).FirstOrDefaultAsync(o => o.OrderId == dto.orderId);
+            var order = await _db.Orders.Include(o => o.Activities).ThenInclude(a => a.TradeDrugs).FirstOrDefaultAsync(o => o.OrderId == dto.orderId);
             if (order == null) return;
 
             // update activities status

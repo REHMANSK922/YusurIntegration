@@ -7,36 +7,60 @@
       "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\services\\ordervalidationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:services\\ordervalidationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\models\\activity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:models\\activity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\dtos\\itemvalidation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:dtos\\itemvalidation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\dtos\\approvedstockcheckdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:dtos\\approvedstockcheckdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\dtos\\yusurpayloads.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:dtos\\yusurpayloads.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\models\\tradedrugoption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:models\\tradedrugoption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\dtos\\orderstockcheckresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:dtos\\orderstockcheckresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\services\\approveddrugservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:services\\approveddrugservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\dtos\\itemvalidation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:dtos\\itemvalidation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\repositories\\iapproveddrugrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:repositories\\iapproveddrugrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\dtos\\activityvalidationresultdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:dtos\\activityvalidationresultdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\models\\wasfatydrugs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:models\\wasfatydrugs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\dtos\\approvedstockcheckdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:dtos\\approvedstockcheckdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\controllers\\yusurwebhookcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:controllers\\yusurwebhookcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\hubs\\yusurhub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:hubs\\yusurhub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\services\\interfaces\\iordervalidationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:services\\interfaces\\iordervalidationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\services\\stockservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:services\\stockservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\services\\interfaces\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:services\\interfaces\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\services\\signaturevalidationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:services\\signaturevalidationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -49,25 +73,25 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 260,
-          "SelectedChildIndex": 7,
+          "DockedWidth": 235,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "OrderValidationService.cs",
-              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\OrderValidationService.cs",
-              "RelativeDocumentMoniker": "Services\\OrderValidationService.cs",
-              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\OrderValidationService.cs",
-              "RelativeToolTip": "Services\\OrderValidationService.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAgwDsAAAAAAAAAAAAAAA==",
+              "Title": "Activity.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\Activity.cs",
+              "RelativeDocumentMoniker": "Models\\Activity.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\Activity.cs",
+              "RelativeToolTip": "Models\\Activity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-18T13:03:41.381Z",
+              "WhenOpened": "2025-12-21T13:15:49.642Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "ItemValidation.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\DTOs\\ItemValidation.cs",
               "RelativeDocumentMoniker": "DTOs\\ItemValidation.cs",
@@ -75,46 +99,33 @@
               "RelativeToolTip": "DTOs\\ItemValidation.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-18T13:01:52.234Z",
+              "WhenOpened": "2025-12-21T12:40:46.107Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ApprovedStockCheckDto.cs",
-              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\DTOs\\ApprovedStockCheckDto.cs",
-              "RelativeDocumentMoniker": "DTOs\\ApprovedStockCheckDto.cs",
-              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\DTOs\\ApprovedStockCheckDto.cs",
-              "RelativeToolTip": "DTOs\\ApprovedStockCheckDto.cs",
+              "DocumentIndex": 6,
+              "Title": "ActivityValidationResultDto.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\DTOs\\ActivityValidationResultDto.cs",
+              "RelativeDocumentMoniker": "DTOs\\ActivityValidationResultDto.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\DTOs\\ActivityValidationResultDto.cs",
+              "RelativeToolTip": "DTOs\\ActivityValidationResultDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-18T13:01:48.108Z",
+              "WhenOpened": "2025-12-21T12:40:30.449Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "YusurPayloads.cs",
-              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\DTOs\\YusurPayloads.cs",
-              "RelativeDocumentMoniker": "DTOs\\YusurPayloads.cs",
-              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\DTOs\\YusurPayloads.cs",
-              "RelativeToolTip": "DTOs\\YusurPayloads.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAcAAAAAAAAAA==",
+              "Title": "OrderStockCheckResult.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\DTOs\\OrderStockCheckResult.cs",
+              "RelativeDocumentMoniker": "DTOs\\OrderStockCheckResult.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\DTOs\\OrderStockCheckResult.cs",
+              "RelativeToolTip": "DTOs\\OrderStockCheckResult.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-18T13:00:17.008Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "TradeDrugOption.cs",
-              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\TradeDrugOption.cs",
-              "RelativeDocumentMoniker": "Models\\TradeDrugOption.cs",
-              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\TradeDrugOption.cs",
-              "RelativeToolTip": "Models\\TradeDrugOption.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-18T12:26:10.133Z",
+              "WhenOpened": "2025-12-21T12:40:28.074Z",
               "EditorCaption": ""
             },
             {
@@ -125,48 +136,113 @@
               "RelativeDocumentMoniker": "Services\\OrderService.cs",
               "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\OrderService.cs",
               "RelativeToolTip": "Services\\OrderService.cs",
-              "ViewState": "AgIAACUAAAAAAAAAAAAIwDcAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAAAIwEEAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-18T09:21:45.831Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "WasfatyDrugs.cs",
-              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\WasfatyDrugs.cs",
-              "RelativeDocumentMoniker": "Models\\WasfatyDrugs.cs",
-              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\WasfatyDrugs.cs",
-              "RelativeToolTip": "Models\\WasfatyDrugs.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-17T08:53:39.064Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "User.cs",
-              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\User.cs",
-              "RelativeDocumentMoniker": "Models\\User.cs",
-              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\User.cs",
-              "RelativeToolTip": "Models\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-17T08:52:56.916Z",
+              "WhenOpened": "2025-12-21T12:34:56.893Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "IApprovedDrugRepository.cs",
-              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Repositories\\IApprovedDrugRepository.cs",
-              "RelativeDocumentMoniker": "Repositories\\IApprovedDrugRepository.cs",
-              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Repositories\\IApprovedDrugRepository.cs",
-              "RelativeToolTip": "Repositories\\IApprovedDrugRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBcAAAAYAAAAAAAAAA==",
+              "Title": "ApprovedStockCheckDto.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\DTOs\\ApprovedStockCheckDto.cs",
+              "RelativeDocumentMoniker": "DTOs\\ApprovedStockCheckDto.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\DTOs\\ApprovedStockCheckDto.cs",
+              "RelativeToolTip": "DTOs\\ApprovedStockCheckDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-17T05:11:17.87Z",
+              "WhenOpened": "2025-12-21T12:40:31.652Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "YusurWebhookController.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Controllers\\YusurWebhookController.cs",
+              "RelativeDocumentMoniker": "Controllers\\YusurWebhookController.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Controllers\\YusurWebhookController.cs",
+              "RelativeToolTip": "Controllers\\YusurWebhookController.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAgwC0AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-21T12:25:23.522Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "YusurHub.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Hubs\\YusurHub.cs",
+              "RelativeDocumentMoniker": "Hubs\\YusurHub.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Hubs\\YusurHub.cs",
+              "RelativeToolTip": "Hubs\\YusurHub.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-21T12:23:40.135Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "StockService.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\StockService.cs",
+              "RelativeDocumentMoniker": "Services\\StockService.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\StockService.cs",
+              "RelativeToolTip": "Services\\StockService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJoAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-21T09:02:28.515Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "SignatureValidationService.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\SignatureValidationService.cs",
+              "RelativeDocumentMoniker": "Services\\SignatureValidationService.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\SignatureValidationService.cs",
+              "RelativeToolTip": "Services\\SignatureValidationService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-21T09:02:19.931Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "IOrderValidationService.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\Interfaces\\IOrderValidationService.cs",
+              "RelativeDocumentMoniker": "Services\\Interfaces\\IOrderValidationService.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\Interfaces\\IOrderValidationService.cs",
+              "RelativeToolTip": "Services\\Interfaces\\IOrderValidationService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-21T09:00:27.397Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "IOrderService.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\Interfaces\\IOrderService.cs",
+              "RelativeDocumentMoniker": "Services\\Interfaces\\IOrderService.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\Interfaces\\IOrderService.cs",
+              "RelativeToolTip": "Services\\Interfaces\\IOrderService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-21T09:00:20.81Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAFcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-21T11:16:23.163Z",
               "EditorCaption": ""
             },
             {
@@ -175,15 +251,83 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ApprovedDrugService.cs",
-              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\ApprovedDrugService.cs",
-              "RelativeDocumentMoniker": "Services\\ApprovedDrugService.cs",
-              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\ApprovedDrugService.cs",
-              "RelativeToolTip": "Services\\ApprovedDrugService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAnAAAAAAAAAA==",
+              "DocumentIndex": 15,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Models\\User.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\User.cs",
+              "RelativeToolTip": "Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-17T05:10:11.978Z",
+              "WhenOpened": "2025-12-17T08:52:56.916Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "12f3dbc2-b506-403f-9444-91585e0655cf",
+        "Display": 1,
+        "X": 875,
+        "Y": 265,
+        "Width": 1390,
+        "Height": 957,
+        "WindowState": 2
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "YusurPayloads.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\DTOs\\YusurPayloads.cs",
+              "RelativeDocumentMoniker": "DTOs\\YusurPayloads.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\DTOs\\YusurPayloads.cs",
+              "RelativeToolTip": "DTOs\\YusurPayloads.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAsAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-21T13:37:09.098Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "cd538e46-08c4-41e8-92d8-229854438fe2",
+        "Display": 1,
+        "X": 448,
+        "Y": 160,
+        "Width": 1390,
+        "Height": 957,
+        "WindowState": 0
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Order.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\Order.cs",
+              "RelativeDocumentMoniker": "Models\\Order.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\Order.cs",
+              "RelativeToolTip": "Models\\Order.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-21T12:32:06.237Z",
               "EditorCaption": ""
             }
           ]

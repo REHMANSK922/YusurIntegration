@@ -1,6 +1,6 @@
 ﻿using YusurIntegration.Models;
 
-namespace YusurIntegration.Repositories
+namespace YusurIntegration.Repositories.Interfaces
 {
     public interface IApprovedDrugRepository
     {
@@ -16,15 +16,13 @@ namespace YusurIntegration.Repositories
         DateTime orderDate);
         Task<bool> DeleteItemnoById(string itemno, DateTime frmdt, DateTime todt);
 
-        Task<ApprovedDrug?> GetBestApprovedDrugAsync(
-       string genericCode,
-       List<string> tradeDrugCodes,
-       DateTime orderDate,
-       string branchLicense,
-       int requiredQty);
+        //Task<ApprovedDrug?> GetBestApprovedDrugAsync(
+        //                    string genericCode,
+        //                    List<string> tradeDrugCodes,
+        //                    DateTime orderDate,
+        //                    string branchLicense,
+        //                    int requiredQty);
 
     }
-
-
 }
  

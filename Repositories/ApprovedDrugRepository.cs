@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Connections;
 using Microsoft.EntityFrameworkCore;
 using YusurIntegration.Data;
 using YusurIntegration.Models;
+using YusurIntegration.Repositories.Interfaces;
 
 namespace YusurIntegration.Repositories
 {
@@ -90,6 +91,11 @@ namespace YusurIntegration.Repositories
             return true;
         }
 
+
+
+
+
+
         //public async Task<ApprovedDrug?> GetByGenericCodeAsync(string genericCode)
         //{
         //    return await _db.ApprovedItems
@@ -127,6 +133,7 @@ namespace YusurIntegration.Repositories
         //        .ToListAsync();
         //}
 
+     /*
         public async Task<ApprovedDrug?> GetBestApprovedDrugAsync(
             string genericCode,
             List<string> tradeDrugCodes,
@@ -153,7 +160,7 @@ namespace YusurIntegration.Repositories
                  select a)
                 .FirstOrDefaultAsync();
         }
-
+     */
 
     }
 

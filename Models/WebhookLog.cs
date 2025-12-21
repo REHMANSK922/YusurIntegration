@@ -9,6 +9,10 @@ namespace YusurIntegration.Models
         public string WebhookType { get; set; }
         public string Payload { get; set; }
         public string  BranchLicense { get; set; }
+
+        public string BranchConnected { get; set; }
+
+
         public DateTime ReceivedAt { get; set; } = DateTime.UtcNow;
 
     }

@@ -17,7 +17,7 @@
         string deliveryDate
     );
 
-        public record PatientDto(string nationalId, string memberId, string firstName, string lastName, long dateOfBirth, string gender);
+        public record PatientDto(string nationalId, string memberId, string firstName, string lastName, string dateOfBirth, string gender, string bloodGroup);
 
         public record ActivityDto(string id, string genericCode, string instructions, string arabicInstructions, string duration, int refills, List<TradeDrugDto> tradeDrugs);
         public record TradeDrugDto(string code, string name, int quantity);

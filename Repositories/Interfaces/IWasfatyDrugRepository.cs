@@ -1,6 +1,6 @@
 ﻿using YusurIntegration.Models;
 
-namespace YusurIntegration.Repositories
+namespace YusurIntegration.Repositories.Interfaces
 {
     public interface IWasfatyDrugRepository
     {

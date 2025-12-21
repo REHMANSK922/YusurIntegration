@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using YusurIntegration.Data;
 using YusurIntegration.Models;
+using YusurIntegration.Repositories.Interfaces;
 
 namespace YusurIntegration.Repositories
 {

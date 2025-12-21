@@ -4,14 +4,15 @@ using Serilog.Core;
 using YusurIntegration.Data;
 using YusurIntegration.DTOs;
 using YusurIntegration.Models;
-using YusurIntegration.Repositories;
+using YusurIntegration.Repositories.Interfaces;
+using YusurIntegration.Services.Interfaces;
 
 
 
 
 namespace YusurIntegration.Services
 {
-    public class StockService
+    public class StockService : IStockService
     {
         private readonly IStockRepository _stockRepo;
         private readonly IApprovedDrugRepository _approvedRepo;

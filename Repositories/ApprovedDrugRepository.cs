@@ -9,9 +9,9 @@ namespace YusurIntegration.Repositories
 {
     public class ApprovedDrugRepository : IApprovedDrugRepository
     {
-        private readonly StockDbContext _db;
+        private readonly AppDbContext _db;
         private readonly ILogger<ApprovedDrugRepository> _logger;
-        public ApprovedDrugRepository(StockDbContext db, ILogger<ApprovedDrugRepository> logger)
+        public ApprovedDrugRepository(AppDbContext db, ILogger<ApprovedDrugRepository> logger)
         {
             _db = db;
             _logger = logger;

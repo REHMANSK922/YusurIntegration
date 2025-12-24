@@ -1,8 +1,40 @@
 [
   {
+    "ContainingType": "YusurIntegration.Controllers.AuthorizationController",
+    "Method": "Resubmit",
+    "RelativePath": "api/Authorization/resubmit",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "YusurIntegration.DTOs.YusurPayloads\u002BResubmitAuthorizationRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YusurIntegration.Controllers.AuthorizationController",
+    "Method": "Submit",
+    "RelativePath": "api/Authorization/submit/{orderId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "YusurIntegration.Controllers.YusurWebhookController",
-    "Method": "Authorization",
-    "RelativePath": "api/webhooks/yusur/authorization-response",
+    "Method": "NotifyAuthorizationResponseReceived",
+    "RelativePath": "api/webhooks/notifyAuthorizationResponseReceived",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -17,8 +49,8 @@
   },
   {
     "ContainingType": "YusurIntegration.Controllers.YusurWebhookController",
-    "Method": "NewOrder",
-    "RelativePath": "api/webhooks/yusur/new-order",
+    "Method": "NotifyNewOrder",
+    "RelativePath": "api/webhooks/notifyNewOrder",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -33,8 +65,8 @@
   },
   {
     "ContainingType": "YusurIntegration.Controllers.YusurWebhookController",
-    "Method": "Allocation",
-    "RelativePath": "api/webhooks/yusur/order-allocation",
+    "Method": "NotifyOrderAllocation",
+    "RelativePath": "api/webhooks/notifyOrderAllocation",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -49,8 +81,8 @@
   },
   {
     "ContainingType": "YusurIntegration.Controllers.YusurWebhookController",
-    "Method": "StatusUpdate",
-    "RelativePath": "api/webhooks/yusur/status-update",
+    "Method": "NotifyOrderStatusUpdate",
+    "RelativePath": "api/webhooks/notifyOrderStatusUpdate",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,

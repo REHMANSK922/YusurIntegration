@@ -21,6 +21,20 @@ namespace YusurIntegration.Data
         public DbSet<Pharmacies> Pharmacies { get; set; }
         public DbSet<PharmacyGroups> PharmacyGroups { get; set; }
 
+        public DbSet<ApiToken> ApiTokens { get; set; }
+
+
+        public DbSet<YusurUsers> YusurUsers { get; set; }
+
+
+        public DbSet<StockTable> StockTable { get; set; }
+        public DbSet<ApprovedDrug> ApprovedDrugs { get; set; }
+        public DbSet<WasfatyDrugs> WasfatyDrugs { get; set; }
+
+
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<Order>().HasKey(o => o.Id);
@@ -33,29 +47,81 @@ namespace YusurIntegration.Data
 
 
 
-            // 1. One-to-One: Order -> Patient
+            // 1. Order -> Patient (1:1)
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.Patient)
-                .WithOne()
+                .WithOne(p => p.Order)
                 .HasForeignKey<Patient>(p => p.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-
-            // 2. One-to-Many: Order -> Activity
-            modelBuilder.Entity<Activity>()
-                .HasOne(a => a.Order)
-                .WithMany(o => o.Activities)
-                .HasForeignKey(a => a.OrderId);
-
-            // 3. One-to-One: Order -> ShippingAddress
+            // 2. Order -> ShippingAddress (1:1)
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.ShippingAddress)
-                .WithOne()
-                .HasForeignKey<ShippingAddress>(s => s.OrderId);
+                .WithOne(s => s.Order)
+                .HasForeignKey<ShippingAddress>(s => s.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // 4. Owned Type Configuration (Coordinates inside ShippingAddress)
+            // 3. Order -> Activities (1:Many)
+            modelBuilder.Entity<Order>()
+                .HasMany(o => o.Activities)
+                .WithOne(a => a.Order) // Activity doesn't need a virtual Order property unless you want it
+                .HasForeignKey(a => a.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // 4. Activity -> TradeDrugs (1:Many)
+            modelBuilder.Entity<Activity>()
+                .HasMany(a => a.TradeDrugs)
+                .WithOne(t => t.Activity)
+                .HasForeignKey(t => t.ActivityId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // 5. Owned Type for Coordinates
             modelBuilder.Entity<ShippingAddress>()
                 .OwnsOne(s => s.Coordinates);
+
+
+
+
+
+
+            //// 1. One-to-One: Order -> Patient
+            //modelBuilder.Entity<Order>()
+            //    .HasOne(o => o.Patient)
+            //    .WithOne()
+            //    .HasForeignKey<Patient>(p => p.OrderId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+
+            //// 2. One-to-Many: Order -> Activity
+            //modelBuilder.Entity<Activity>()
+            //    .HasOne(a => a.Order)
+            //    .WithMany(o => o.Activities)
+            //    .HasForeignKey(a => a.OrderId);
+
+            ////modelBuilder.Entity<Order>()
+            ////.HasMany(o => o.Activities)
+            ////.WithOne()
+            ////.HasForeignKey(a => a.OrderId)
+            ////.OnDelete(DeleteBehavior.Cascade);
+
+
+
+
+
+            //// 3. One-to-One: Order -> ShippingAddress
+            //modelBuilder.Entity<Order>()
+            //    .HasOne(o => o.ShippingAddress)
+            //    .WithOne()
+            //    .HasForeignKey<ShippingAddress>(s => s.OrderId);
+
+            //// 4. Owned Type Configuration (Coordinates inside ShippingAddress)
+            //modelBuilder.Entity<ShippingAddress>()
+            //    .OwnsOne(s => s.Coordinates);
+
+
+
+
+            /*
 
             // 5. Firebird Specific: Guid handling
             // Many Firebird EF providers require Guids to be stored as strings 
@@ -64,21 +130,61 @@ namespace YusurIntegration.Data
                 .Property(a => a.Id)
                 .HasDefaultValueSql("UUID_TO_CHAR(GEN_UUID())"); // If using Firebird 4.0+
 
+            */
+
+
             // 6. Limits on String Lengths
             // Firebird has a limit on index sizes. It's good practice to set max lengths.
-            modelBuilder.Entity<Order>().Property(o => o.OrderId).HasMaxLength(50);
-            modelBuilder.Entity<Patient>().Property(p => p.nationalId).HasMaxLength(20);    
+
+            //modelBuilder.Entity<Order>().Property(o => o.OrderId).HasMaxLength(50);
+            //modelBuilder.Entity<Patient>().Property(p => p.nationalId).HasMaxLength(20);    
 
 
 
             modelBuilder.Entity<PendingMessage>().HasKey(p => p.Id);
             modelBuilder.Entity<PendingMessage>().HasIndex(p => p.MessageId).IsUnique();
 
+
+
+
             modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<User>().HasIndex(u => u.Username).IsUnique();
 
             modelBuilder.Entity<Pharmacies>().HasKey(p => p.Id);
             modelBuilder.Entity<PharmacyGroups>().HasKey(pg => pg.Id);
+
+
+            modelBuilder.Entity<ApiToken>().HasKey(p => p.Id);
+
+
+            modelBuilder.Entity<YusurUsers>().HasKey(p => p.Id);
+
+
+
+            modelBuilder.Entity<StockTable>().HasKey(s => s.Id);
+            modelBuilder.Entity<StockTable>().HasIndex(s => new { s.ItemNo, s.BranchLicense, s.GenericCode }).IsUnique();
+            modelBuilder.Entity<ApprovedDrug>().HasKey(a => a.Id);
+            modelBuilder.Entity<WasfatyDrugs>().HasKey(a => new { a.DrugId });
+
+
+
+            //modelBuilder.Entity<ApiToken>(entity =>
+            //{
+            //    entity.ToTable("ApiToken");
+            //    entity.HasKey(e => e.Id);
+            //    entity.Property(e => e.Id).HasColumnName("ID");
+            //    entity.Property(e => e.TokenType).HasColumnName("TokenType").HasMaxLength(50);
+            //    entity.Property(e => e.AccessToken).HasColumnName("ACCESS_TOKEN").HasMaxLength(2000);
+            //    entity.Property(e => e.Username).HasColumnName("USERNAME").HasMaxLength(100);
+            //    entity.Property(e => e.CreatedDate).HasColumnName("CREATED_DATE");
+            //    entity.Property(e => e.ExpiresAt).HasColumnName("EXPIRES_AT");
+            //    entity.Property(e => e.IsValid).HasColumnName("IS_VALID");
+            //    entity.Property(e => e.LastUsed).HasColumnName("LAST_USED");
+
+            //    entity.HasIndex(e => e.TokenType).HasDatabaseName("IDX_API_TOKENS_TYPE");
+            //});
+
+
 
         }
     }

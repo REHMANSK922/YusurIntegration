@@ -1,27 +1,36 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using YusurIntegration.Data;
 using YusurIntegration.DTOs;
+using YusurIntegration.Hubs;
 using YusurIntegration.Models;
 using YusurIntegration.Services.Interfaces;
-using static YusurIntegration.DTOs.YusurPayloads;
+//using static YusurIntegration.DTOs.YusurPayloads;
 namespace YusurIntegration.Services
 {
     public class OrderService : IOrderService
     {
         private readonly AppDbContext _db;
-        private readonly YusurApiClient _yusur;
-        readonly IOrderValidationService _orderValidationService;
+        private readonly IYusurApiClient _yusur;
+        private readonly IOrderValidationService _orderValidationService;
+        private readonly IHubContext<YusurHub> _hub;
 
-        public OrderService(AppDbContext db, YusurApiClient yusur,IOrderValidationService ordervalidation)
+        public OrderService(AppDbContext db, IYusurApiClient yusur,IOrderValidationService ordervalidation, IHubContext<YusurHub> yhub  )
         {
             _db = db;
             _yusur = yusur;
             _orderValidationService = ordervalidation;
+            _hub = yhub;
 
         }
 
-        public async Task HandleNewOrderAsync(NewOrderDto dto)
+        public async Task HandleNewOrderAsync(YusurPayloads.NewOrderDto dto)
         {
+
+            var payload = System.Text.Json.JsonSerializer.Serialize(dto);
+            await _db.WebhookLogs.AddAsync(new Models.WebhookLog { WebhookType = "notifyNewOrder",OrderId = dto.orderId,  Payload = payload, Status = "PENDING_VALIDATION", BranchLicense = dto.branchLicense });
+            await _db.SaveChangesAsync();
+
             // create order
             var order = new Order
             {
@@ -50,43 +59,41 @@ namespace YusurIntegration.Services
                         latitude = dto.shippingAddress.coordinates != null ? dto.shippingAddress.coordinates.latitude : 0,
                         longitude = dto.shippingAddress.coordinates != null ? dto.shippingAddress.coordinates.longitude : 0
                     } : new Coordinates()
-                } : null,   
-
+                } : null,
+                Activities = new List<Activity>()
             };
 
             foreach (var act in dto.activities ?? new())
             {
-                var a = new Activity
+                var activity = new Activity
                 {
-                    ActivityIdFromYusur = act.id,
+                    ActivityId = act.id,
                     GenericCode = act.genericCode,
                     Instructions = act.instructions,
                     ArabicInstructions = act.arabicInstructions,
                     Duration = act.duration,
-                    Refills = act.refills
+                    Refills = act.refills,
+                    TradeDrugs = new List<TradeDrugs>()
                 };
 
                 if (act.tradeDrugs != null)
                 {
                     foreach (var td in act.tradeDrugs)
                     {
-                        a.TradeDrugs.Add(new TradeDrugs { Code = td.code, Name = td.name, Quantity = td.quantity });
+                        activity.TradeDrugs.Add(new TradeDrugs { Code = td.code, Name = td.name, Quantity = td.quantity });
                     }
                 }
 
-               order.Activities.Add(a);
+               order.Activities.Add(activity);
             }
-
-
-            _db.Orders.Add(order);
-            await _db.SaveChangesAsync();
-
+          
+            string _orderstatus = "RECEIVED";
 
             // basic auto allocation: pick first trade drug of each activity as selected
-            foreach (var a in order.Activities)
+            foreach (var activity in order.Activities)
             {
- 
-                var tradeDrugsList = a.TradeDrugs.Select(x => new TradeDrugs
+
+                var tradeDrugsList = activity.TradeDrugs.Select(x => new TradeDrugs
                 {
                     Code = x.Code,
                     Quantity = x.Quantity
@@ -97,76 +104,135 @@ namespace YusurIntegration.Services
                     DateTime.Now,
                     tradeDrugsList);
 
-                if (te.IsValid)
+                if (te != null)
                 {
-                    a.SelectedTradeCode = te.DrugCode;
-                    a.SelectedQuantity = te.Quantity;
-                    a.Itemno = te.ItemNo;
+                    activity.SelectedTradeCode = te.DrugCode ?? string.Empty;
+                    activity.Itemno = te.ItemNo ?? string.Empty;
+
+                    if (te.IsValid)
+                    {
+                        activity.SelectedQuantity = te.Quantity;
+                    }
+                    else
+                    {
+                        activity.SelectedQuantity = 0;
+                       _orderstatus ="STOCK NOT_AVAILABLE";
+                        break;
+                    }
                 }
             }
 
-            order.Status = "ACCEPTED_BY_PROVIDER";
-            _db.OrderStatusHistory.Add(new OrderStatusHistory { OrderId = order.Id, Status = order.Status });
+            order.Status = _orderstatus;
+           _db.Orders.Add(order);
+
             await _db.SaveChangesAsync();
 
-            // call Yusur to accept order (send activities mapping)
-            var activitiesForYusur = order.Activities.Select(x => new { id = x.ActivityIdFromYusur, tradeCode = x.SelectedTradeCode, quantity = x.SelectedQuantity }).ToList();
-            await _yusur.AcceptOrderAsync(order.OrderId, activitiesForYusur);
+            if (_orderstatus == "RECEIVED")
+            {
+                var activities = order.Activities
+                      .Select(a => new YusurPayloads.AcceptActivityDto(
+                          id: a.ActivityId,
+                          tradeCode: a.SelectedTradeCode!,
+                          Quantity: (int)a.SelectedQuantity
+                      ))
+                      .ToList();
+                var request = new YusurPayloads.OrderAcceptRequestDto(order.OrderId, activities);
+                var success =  await _yusur.AcceptOrderAsync(request);
+
+            }
+            else
+            {
+
+                var request = new YusurPayloads.OrderRejectRequestDto(order.OrderId, "Stock not available for one or more items");
+                await _yusur.RejectOrderAsync(request);
+            }
+
         }
 
-        public async Task HandleOrderAllocationAsync(OrderAllocationDto dto)
+        public async Task HandleOrderAllocationAsync(YusurPayloads.OrderAllocationDto dto)
         {
             var order = await _db.Orders.FirstOrDefaultAsync(o => o.OrderId == dto.orderId);
             if (order == null) return;
 
             foreach (var act in dto.activities ?? new())
             {
-                var a = order.Activities.FirstOrDefault(x => x.ActivityIdFromYusur == act.id);
+                var a = order.Activities.FirstOrDefault(x => x.ActivityId == act.id);
                 if (a != null)
                 {
                     a.SelectedTradeCode = act.tradeCode;
                 }
             }
-
-            order.Status = "WAITING_ERX_HUB_APPROVAL";
-            _db.OrderStatusHistory.Add(new OrderStatusHistory { OrderId = order.Id, Status = order.Status });
+            order.Status = "WAITING_WASFATY_APPROVAL";
             await _db.SaveChangesAsync();
         }
 
-        public async Task HandleAuthorizationResponseAsync(AuthorizationResponseDto dto)
+        public async Task<(bool Success, string? ErrorMessage, Order? Data)> HandleAuthorizationResponseAsync(YusurPayloads.AuthorizationResponseDto dto)
         {
-            var order = await _db.Orders.Include(o => o.Activities).ThenInclude(a => a.TradeDrugs).FirstOrDefaultAsync(o => o.OrderId == dto.orderId);
-            if (order == null) return;
-
-            // update activities status
-            foreach (var act in dto.activities ?? new())
-            {
-                var a = order.Activities.FirstOrDefault(x => x.ActivityIdFromYusur == act.id);
-                if (a == null) continue;
-
-                // map authStatus
-                if (act.authStatus == "APPROVED")
-                {
-                    // keep selected trade code
-                }
-                else if (act.authStatus == "REJECTED")
-                {
-                    // mark quantity 0 to indicate not allowed
-                    a.SelectedQuantity = 0;
-                }
-            }
-
-            order.Status = dto.status;
-            _db.OrderStatusHistory.Add(new OrderStatusHistory { OrderId = order.Id, Status = order.Status });
+            var payload = System.Text.Json.JsonSerializer.Serialize(dto);
+            await _db.WebhookLogs.AddAsync(new Models.WebhookLog { WebhookType = "notifyAuthorizationResponseReceived", Payload = payload, BranchLicense = dto.branchLicense });
             await _db.SaveChangesAsync();
-        }
 
-        public async Task HandleStatusUpdateAsync(StatusUpdateDto dto)
+            using var transaction = await _db.Database.BeginTransactionAsync();
+            try
+            {
+                var order = await _db.Orders.Include(o => o.Activities).ThenInclude(a => a.TradeDrugs).FirstOrDefaultAsync(o => o.OrderId == dto.orderId);
+                if (order == null) return (false, "Order not found", null);
+
+                order.failureReason = dto.failureReason;
+
+                foreach (var act in dto.activities ?? new())
+                {
+                    var a = order.Activities.FirstOrDefault(x => x.ActivityId == act.id);
+                    if (a == null) continue;
+                    // map authStatus
+                    if (act.authStatus == "APPROVED")
+                    {
+                        a.Isapproved = true;
+                    }
+                    else if (act.authStatus == "REJECTED")
+                    {
+                        a.SelectedQuantity = 0;
+                        a.rejectionReason = act.rejectionReason;
+                    }
+                }
+                order.Status = dto.status;
+
+
+                var PendingMessage = new PendingMessage
+                {
+                    MessageId = Guid.NewGuid().ToString(),
+                    BranchLicense = dto.branchLicense,
+                    MessageType = "notifyAuthorizationResponseReceived",
+                    PayloadJson = payload,
+                    CreatedAt = DateTime.UtcNow
+                };
+                _db.PendingMessages.Add(PendingMessage);
+
+                await _db.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                await _hub.Clients.Group(dto.branchLicense).SendAsync("notifyAuthorizationResponseReceived", new
+                {
+                    Id = PendingMessage.Id,
+                    OrderId = dto.orderId,
+                    Status = dto.status
+                });
+
+                return (true, null, order);
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                return (false, "Exception occurred", null);
+            }
+        }
+        public async Task HandleStatusUpdateAsync(YusurPayloads.StatusUpdateDto dto)
         {
             var order = await _db.Orders.FirstOrDefaultAsync(o => o.OrderId == dto.orderId);
             if (order == null) return;
+            var internalstatus = OrderStatusMapper.FromYusur(dto.status);
             order.Status = dto.status;
-            _db.OrderStatusHistory.Add(new OrderStatusHistory { OrderId = order.Id, Status = order.Status });
+            _db.OrderStatusHistory.Add(new OrderStatusHistory { OrderId = order.OrderId, Status = internalstatus,FailureReason = dto.failureReason });
             await _db.SaveChangesAsync();
         }
     }

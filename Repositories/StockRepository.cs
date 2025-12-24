@@ -7,9 +7,9 @@ namespace YusurIntegration.Repositories
 {
     public class StockRepository : IStockRepository
     {
-        private readonly StockDbContext _db;
+        private readonly AppDbContext _db;
 
-        public StockRepository(StockDbContext db)
+        public StockRepository(AppDbContext db)
         {
             _db = db;
         }

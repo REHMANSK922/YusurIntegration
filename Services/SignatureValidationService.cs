@@ -10,7 +10,7 @@ namespace YusurIntegration.Services
         public SignatureValidationService(IConfiguration config)
         {
             _config = config;
-            _secret = _config.GetValue<string>("Yusur:SecretKey");
+            _secret = _config.GetValue<string>("YusurKeys:SecretKey");
         }
 
         //public bool Validate(string incoming)

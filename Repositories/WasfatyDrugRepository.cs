@@ -7,12 +7,12 @@ namespace YusurIntegration.Repositories
 {
     public class WasfatyDrugRepository : IWasfatyDrugRepository
     {
-        private readonly StockDbContext _db;
+        private readonly AppDbContext _db;
         private readonly ILogger<WasfatyDrugRepository> _logger;
 
 
         public WasfatyDrugRepository(
-            StockDbContext db,
+            AppDbContext db,
             ILogger<WasfatyDrugRepository> logger)
         {
             _db = db;

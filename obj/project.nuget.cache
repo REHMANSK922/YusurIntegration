@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "8696HxAvGz0=",
+  "dgSpecHash": "HOt4TUcOfBw=",
   "success": true,
   "projectFilePath": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\YusurIntegration.csproj",
   "expectedPackageFiles": [
@@ -22,6 +22,7 @@
     "C:\\Users\\a.rehman\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\9.0.11\\microsoft.entityframeworkcore.analyzers.9.0.11.nupkg.sha512",
     "C:\\Users\\a.rehman\\.nuget\\packages\\microsoft.entityframeworkcore.design\\9.0.11\\microsoft.entityframeworkcore.design.9.0.11.nupkg.sha512",
     "C:\\Users\\a.rehman\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\9.0.11\\microsoft.entityframeworkcore.relational.9.0.11.nupkg.sha512",
+    "C:\\Users\\a.rehman\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\10.0.1\\microsoft.entityframeworkcore.tools.10.0.1.nupkg.sha512",
     "C:\\Users\\a.rehman\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\9.0.11\\microsoft.extensions.caching.abstractions.9.0.11.nupkg.sha512",
     "C:\\Users\\a.rehman\\.nuget\\packages\\microsoft.extensions.caching.memory\\9.0.11\\microsoft.extensions.caching.memory.9.0.11.nupkg.sha512",
     "C:\\Users\\a.rehman\\.nuget\\packages\\microsoft.extensions.configuration\\10.0.0\\microsoft.extensions.configuration.10.0.0.nupkg.sha512",

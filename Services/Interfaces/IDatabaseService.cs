@@ -1,13 +1,9 @@
 ﻿using YusurIntegration.Models;
 
-namespace YusurIntegration.Repositories.Interfaces
+namespace YusurIntegration.Services.Interfaces
 {
-    public interface IOrderRepository
+    public interface IDatabaseService
     {
-        Task SaveOrderAsync(Order order);
-        Task<Order> GetByOrderId(string orderId);
-
-
         Task<IEnumerable<Order>> GetOrdersByLicenseAsync(string branchLicense, string? status = null);
         Task<IEnumerable<Activity>> GetActivitiesByLicenseAsync(string branchLicense, string? status = null);
         Task<IEnumerable<TradeDrug>> GetTradeDrugsByLicenseAsync(string branchLicense, string? status = null);
@@ -17,9 +13,5 @@ namespace YusurIntegration.Repositories.Interfaces
         Task<int> DeleteTradeDrugsByLicenseAsync(string branchLicense, string? status = null);
         Task<int> DeleteAllDataByLicenseAsync(string branchLicense, string? status = null);
         Task<int> GetRecordCountsByLicenseAsync(string branchLicense, string? status = null);
-
-
-
     }
-
 }

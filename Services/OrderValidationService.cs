@@ -26,7 +26,7 @@ namespace YusurIntegration.Services
         public async Task<ActivityValidationResultDto> ValidateActivityAsync(
             string branchLicense,
             DateTime orderDate,
-            List<TradeDrugs> tradeDrugs)
+            List<TradeDrug> tradeDrugs)
         {
             foreach (var trade in tradeDrugs)
             {

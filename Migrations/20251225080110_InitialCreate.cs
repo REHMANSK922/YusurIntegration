@@ -254,12 +254,12 @@ namespace YusurIntegration.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn),
-                    OrderId = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
-                    WebhookType = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
-                    Payload = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
-                    BranchLicense = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
-                    Status = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
-                    BranchConnected = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
+                    OrderId = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
+                    WebhookType = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
+                    Payload = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
+                    BranchLicense = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
+                    Status = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
+                    BranchConnected = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
                     ReceivedAt = table.Column<DateTime>(type: "TIMESTAMP", nullable: false)
                 },
                 constraints: table =>
@@ -290,18 +290,17 @@ namespace YusurIntegration.Migrations
                 {
                     ActivityId = table.Column<string>(type: "VARCHAR(256)", nullable: false),
                     OrderId = table.Column<string>(type: "VARCHAR(256)", nullable: false),
-                    OrderId1 = table.Column<string>(type: "VARCHAR(256)", nullable: false),
                     GenericCode = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
                     Instructions = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
                     ArabicInstructions = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
                     Duration = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
                     Refills = table.Column<int>(type: "INTEGER", nullable: true),
-                    SelectedTradeCode = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
-                    SelectedQuantity = table.Column<int>(type: "INTEGER", nullable: false),
-                    authStatus = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
-                    rejectionReason = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
-                    Isapproved = table.Column<bool>(type: "BOOLEAN", nullable: false),
-                    Itemno = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false)
+                    SelectedTradeCode = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
+                    SelectedQuantity = table.Column<int>(type: "INTEGER", nullable: true),
+                    authStatus = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
+                    rejectionReason = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
+                    Isapproved = table.Column<bool>(type: "BOOLEAN", nullable: true),
+                    Itemno = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -309,12 +308,6 @@ namespace YusurIntegration.Migrations
                     table.ForeignKey(
                         name: "FK_Activities_Orders_OrderId",
                         column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Activities_Orders_OrderId1",
-                        column: x => x.OrderId1,
                         principalTable: "Orders",
                         principalColumn: "OrderId",
                         onDelete: ReferentialAction.Cascade);
@@ -331,7 +324,7 @@ namespace YusurIntegration.Migrations
                     lastName = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
                     bloodGroup = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
                     dateOfBirth = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
-                    gender = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false)
+                    gender = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -349,12 +342,12 @@ namespace YusurIntegration.Migrations
                 columns: table => new
                 {
                     OrderId = table.Column<string>(type: "VARCHAR(256)", nullable: false),
-                    addressLine1 = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
-                    addressLine2 = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
-                    area = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
-                    city = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
-                    Coordinates_latitude = table.Column<double>(type: "DOUBLE PRECISION", nullable: false),
-                    Coordinates_longitude = table.Column<double>(type: "DOUBLE PRECISION", nullable: false)
+                    addressLine1 = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
+                    addressLine2 = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
+                    area = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
+                    city = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
+                    Coordinates_latitude = table.Column<double>(type: "DOUBLE PRECISION", nullable: true),
+                    Coordinates_longitude = table.Column<double>(type: "DOUBLE PRECISION", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -368,28 +361,21 @@ namespace YusurIntegration.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TradeDrugOptions",
+                name: "TradeDrugs",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "CHAR(16) CHARACTER SET OCTETS", nullable: false),
                     ActivityId = table.Column<string>(type: "VARCHAR(256)", nullable: false),
                     Code = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
                     Name = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
-                    Quantity = table.Column<int>(type: "INTEGER", nullable: false),
-                    ActivityId1 = table.Column<string>(type: "VARCHAR(256)", nullable: false)
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TradeDrugOptions", x => x.Id);
+                    table.PrimaryKey("PK_TradeDrugs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TradeDrugOptions_Activities~",
+                        name: "FK_TradeDrugs_Activities_Activ~",
                         column: x => x.ActivityId,
-                        principalTable: "Activities",
-                        principalColumn: "ActivityId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TradeDrugOptions_Activitie~1",
-                        column: x => x.ActivityId1,
                         principalTable: "Activities",
                         principalColumn: "ActivityId",
                         onDelete: ReferentialAction.Cascade);
@@ -399,11 +385,6 @@ namespace YusurIntegration.Migrations
                 name: "IX_Activities_OrderId",
                 table: "Activities",
                 column: "OrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Activities_OrderId1",
-                table: "Activities",
-                column: "OrderId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PendingMessages_MessageId",
@@ -418,14 +399,9 @@ namespace YusurIntegration.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TradeDrugOptions_ActivityId",
-                table: "TradeDrugOptions",
+                name: "IX_TradeDrugs_ActivityId",
+                table: "TradeDrugs",
                 column: "ActivityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TradeDrugOptions_ActivityId1",
-                table: "TradeDrugOptions",
-                column: "ActivityId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Username",
@@ -465,7 +441,7 @@ namespace YusurIntegration.Migrations
                 name: "StockTable");
 
             migrationBuilder.DropTable(
-                name: "TradeDrugOptions");
+                name: "TradeDrugs");
 
             migrationBuilder.DropTable(
                 name: "Users");

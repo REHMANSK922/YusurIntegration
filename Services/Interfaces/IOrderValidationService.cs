@@ -8,6 +8,6 @@ namespace YusurIntegration.Services.Interfaces
         Task<ActivityValidationResultDto> ValidateActivityAsync(
             string branchLicense,
             DateTime orderDate,
-            List<TradeDrugs> tradeDrugs);
+            List<TradeDrug> tradeDrugs);
     }
 }

@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using YusurIntegration.Data;
 using YusurIntegration.DTOs;
 using YusurIntegration.Hubs;
+using YusurIntegration.Models;
 using YusurIntegration.Services;
 using YusurIntegration.Services.Interfaces;
 using static YusurIntegration.DTOs.YusurPayloads;
@@ -56,8 +58,87 @@ namespace YusurIntegration.Controllers
         public async Task<IActionResult> NotifyNewOrder([FromBody] NewOrderDto dto)
         {
             if (!ValidateSecret()) return Unauthorized();
-            await _orders.HandleNewOrderAsync(dto);
-            return Ok(new { status = "received" });
+
+            try
+            {
+
+                if (dto == null)
+                {
+                    return BadRequest(new ErrorResponse
+                    {
+                        StatusCode = 400,
+                        Message = "Request body cannot be null",
+                        Timestamp = DateTime.UtcNow
+                    });
+                }
+
+             await _orders.HandleNewOrderAsync(dto);
+             return Ok(new { status = "received" });
+
+            }
+            catch (ValidationException ex)
+            {
+                _logger.LogWarning(ex, "Validation error while creating order");
+                return BadRequest(new ErrorResponse
+                {
+                    StatusCode = 400,
+                    Message = ex.Message,
+                    Errors = new[] { ex.Message },
+                    Timestamp = DateTime.UtcNow
+                });
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Database error while creating order");
+                return StatusCode(500, new ErrorResponse
+                {
+                    StatusCode = 500,
+                    Message = "Database error occurred while creating the order",
+                    Errors = new[] { ex.InnerException?.Message ?? ex.Message },
+                    Timestamp = DateTime.UtcNow
+                });
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Invalid operation while creating order");
+                return BadRequest(new ErrorResponse
+                {
+                    StatusCode = 400,
+                    Message = ex.Message,
+                    Timestamp = DateTime.UtcNow
+                });
+            }
+            catch (ArgumentNullException ex)
+            {
+                _logger.LogWarning(ex, "Null argument provided");
+                return BadRequest(new ErrorResponse
+                {
+                    StatusCode = 400,
+                    Message = $"Required field is missing: {ex.ParamName}",
+                    Timestamp = DateTime.UtcNow
+                });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogWarning(ex, "Resource not found");
+                return NotFound(new ErrorResponse
+                {
+                    StatusCode = 404,
+                    Message = ex.Message,
+                    Timestamp = DateTime.UtcNow
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while creating order");
+                return StatusCode(500, new ErrorResponse
+                {
+                    StatusCode = 500,
+                    Message = "An unexpected error occurred while processing your request",
+                    Timestamp = DateTime.UtcNow
+                });
+            }
+
         }
         [HttpPost("notifyOrderAllocation")]
         public async Task<IActionResult> NotifyOrderAllocation([FromBody] OrderAllocationDto dto)

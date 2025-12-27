@@ -40,44 +40,34 @@ namespace YusurIntegration.Migrations
                     b.Property<string>("Instructions")
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
-                    b.Property<bool>("Isapproved")
+                    b.Property<bool?>("Isapproved")
                         .HasColumnType("BOOLEAN");
 
                     b.Property<string>("Itemno")
-                        .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.Property<string>("OrderId")
                         .IsRequired()
                         .HasColumnType("VARCHAR(256)");
 
-                    b.Property<string>("OrderId1")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(256)");
-
                     b.Property<int?>("Refills")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("SelectedQuantity")
+                    b.Property<int?>("SelectedQuantity")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("SelectedTradeCode")
-                        .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.Property<string>("authStatus")
-                        .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.Property<string>("rejectionReason")
-                        .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.HasKey("ActivityId");
 
                     b.HasIndex("OrderId");
-
-                    b.HasIndex("OrderId1");
 
                     b.ToTable("Activities");
                 });
@@ -245,7 +235,6 @@ namespace YusurIntegration.Migrations
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.Property<string>("gender")
-                        .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.Property<string>("lastName")
@@ -374,19 +363,15 @@ namespace YusurIntegration.Migrations
                         .HasColumnType("VARCHAR(256)");
 
                     b.Property<string>("addressLine1")
-                        .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.Property<string>("addressLine2")
-                        .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.Property<string>("area")
-                        .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.Property<string>("city")
-                        .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.HasKey("OrderId");
@@ -434,17 +419,13 @@ namespace YusurIntegration.Migrations
                     b.ToTable("StockTable");
                 });
 
-            modelBuilder.Entity("YusurIntegration.Models.TradeDrugs", b =>
+            modelBuilder.Entity("YusurIntegration.Models.TradeDrug", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("CHAR(16) CHARACTER SET OCTETS");
 
                     b.Property<string>("ActivityId")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(256)");
-
-                    b.Property<string>("ActivityId1")
                         .IsRequired()
                         .HasColumnType("VARCHAR(256)");
 
@@ -463,9 +444,7 @@ namespace YusurIntegration.Migrations
 
                     b.HasIndex("ActivityId");
 
-                    b.HasIndex("ActivityId1");
-
-                    b.ToTable("TradeDrugOptions");
+                    b.ToTable("TradeDrugs");
                 });
 
             modelBuilder.Entity("YusurIntegration.Models.User", b =>
@@ -791,30 +770,24 @@ namespace YusurIntegration.Migrations
                         .HasAnnotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BranchConnected")
-                        .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.Property<string>("BranchLicense")
-                        .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.Property<string>("OrderId")
-                        .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.Property<string>("Payload")
-                        .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.Property<DateTime>("ReceivedAt")
                         .HasColumnType("TIMESTAMP");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.Property<string>("WebhookType")
-                        .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.HasKey("Id");
@@ -856,15 +829,9 @@ namespace YusurIntegration.Migrations
 
             modelBuilder.Entity("YusurIntegration.Models.Activity", b =>
                 {
-                    b.HasOne("YusurIntegration.Models.Order", null)
+                    b.HasOne("YusurIntegration.Models.Order", "Order")
                         .WithMany("Activities")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("YusurIntegration.Models.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -909,26 +876,18 @@ namespace YusurIntegration.Migrations
                                 .HasForeignKey("ShippingAddressOrderId");
                         });
 
-                    b.Navigation("Coordinates")
-                        .IsRequired();
+                    b.Navigation("Coordinates");
 
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("YusurIntegration.Models.TradeDrugs", b =>
+            modelBuilder.Entity("YusurIntegration.Models.TradeDrug", b =>
                 {
-                    b.HasOne("YusurIntegration.Models.Activity", null)
+                    b.HasOne("YusurIntegration.Models.Activity", "Activity")
                         .WithMany("TradeDrugs")
                         .HasForeignKey("ActivityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("YusurIntegration.Models.Activity", "Activity")
-                        .WithMany()
-                        .HasForeignKey("ActivityId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_TradeDrugOptions_Activitie~1");
 
                     b.Navigation("Activity");
                 });

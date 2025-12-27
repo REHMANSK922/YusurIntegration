@@ -36,8 +36,11 @@ builder.Services.AddScoped<IOrderValidationService, OrderValidationService>();
 builder.Services.AddScoped<IApprovedDrugService, ApprovedDrugService>();
 builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
 
+builder.Services.AddScoped <IDatabaseService, DatabaseService>();
+ 
 
-//builder.Services.AddSingleton<ConnectionManager>();
+
+builder.Services.AddSingleton<ConnectionManager>();
 
 
 builder.Services.AddSignalR();
@@ -73,6 +76,7 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
+
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
     //var db2 = scope.ServiceProvider.GetRequiredService<StockDbContext>();

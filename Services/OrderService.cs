@@ -14,21 +14,32 @@ namespace YusurIntegration.Services
         private readonly IYusurApiClient _yusur;
         private readonly IOrderValidationService _orderValidationService;
         private readonly IHubContext<YusurHub> _hub;
+        private readonly ILogger<OrderService> _logger;
+        private readonly ConnectionManager _cn;
 
-        public OrderService(AppDbContext db, IYusurApiClient yusur,IOrderValidationService ordervalidation, IHubContext<YusurHub> yhub  )
+        public OrderService(AppDbContext db, IYusurApiClient yusur,
+            IOrderValidationService ordervalidation, 
+            IHubContext<YusurHub> yhub ,
+            ILogger<OrderService> logger,
+            ConnectionManager cn )
         {
             _db = db;
             _yusur = yusur;
             _orderValidationService = ordervalidation;
             _hub = yhub;
+            _logger = logger;
+            _cn = cn;
 
         }
 
         public async Task HandleNewOrderAsync(YusurPayloads.NewOrderDto dto)
         {
+            _logger.LogInformation($"Handling new order: {dto.orderId} for branch: {dto.branchLicense}");
 
             var payload = System.Text.Json.JsonSerializer.Serialize(dto);
-            await _db.WebhookLogs.AddAsync(new Models.WebhookLog { WebhookType = "notifyNewOrder",OrderId = dto.orderId,  Payload = payload, Status = "PENDING_VALIDATION", BranchLicense = dto.branchLicense });
+            string connteted =_cn.IsConnected(dto.branchLicense) ? "YES" : "NO";
+
+            await _db.WebhookLogs.AddAsync(new Models.WebhookLog { WebhookType = "notifyNewOrder",OrderId = dto.orderId, BranchConnected =connteted, Payload = payload, Status = "PENDING_VALIDATION", BranchLicense = dto.branchLicense });
             await _db.SaveChangesAsync();
 
             // create order
@@ -44,6 +55,7 @@ namespace YusurIntegration.Services
                 {
                     firstName = dto.patient.firstName,
                     nationalId = dto.patient.nationalId,
+                    memberId = dto.patient.memberId,
                     lastName = dto.patient.lastName,
                     gender = dto.patient.gender,
                     bloodGroup = dto.patient.bloodGroup
@@ -73,14 +85,14 @@ namespace YusurIntegration.Services
                     ArabicInstructions = act.arabicInstructions,
                     Duration = act.duration,
                     Refills = act.refills,
-                    TradeDrugs = new List<TradeDrugs>()
+                    TradeDrugs = new List<TradeDrug>()
                 };
 
                 if (act.tradeDrugs != null)
                 {
                     foreach (var td in act.tradeDrugs)
                     {
-                        activity.TradeDrugs.Add(new TradeDrugs { Code = td.code, Name = td.name, Quantity = td.quantity });
+                        activity.TradeDrugs.Add(new TradeDrug { Code = td.code, Name = td.name, Quantity = td.quantity });
                     }
                 }
 
@@ -93,7 +105,7 @@ namespace YusurIntegration.Services
             foreach (var activity in order.Activities)
             {
 
-                var tradeDrugsList = activity.TradeDrugs.Select(x => new TradeDrugs
+                var tradeDrugsList = activity.TradeDrugs.Select(x => new TradeDrug
                 {
                     Code = x.Code,
                     Quantity = x.Quantity
@@ -165,6 +177,7 @@ namespace YusurIntegration.Services
             order.Status = "WAITING_WASFATY_APPROVAL";
             await _db.SaveChangesAsync();
         }
+
 
         public async Task<(bool Success, string? ErrorMessage, Order? Data)> HandleAuthorizationResponseAsync(YusurPayloads.AuthorizationResponseDto dto)
         {

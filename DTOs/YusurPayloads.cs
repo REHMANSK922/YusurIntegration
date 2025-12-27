@@ -44,12 +44,13 @@
         public record LoginRequestDto(string userName,string password);
         public record LoginResponseDto(string? accessToken,  List<ErrorDto>? errors);
 
-        public record ErrorDto(
-            string message,
-            string? field);
-
+        public record ErrorDto(string message, string? field);
 
         public record SubmitAuthorizationRequestDto(string orderId);
         public record ResubmitAuthorizationRequestDto( string orderId, List<AcceptActivityDto> activities);
+
+
+
+
     }
 }

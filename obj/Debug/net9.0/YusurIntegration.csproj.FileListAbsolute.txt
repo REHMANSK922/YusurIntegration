@@ -146,6 +146,7 @@ D:\COREPROJECTS\Yusur\YusurIntegration\obj\Debug\net9.0\staticwebassets.build.js
 D:\COREPROJECTS\Yusur\YusurIntegration\obj\Debug\net9.0\staticwebassets.build.json.cache
 D:\COREPROJECTS\Yusur\YusurIntegration\obj\Debug\net9.0\staticwebassets.development.json
 D:\COREPROJECTS\Yusur\YusurIntegration\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+D:\COREPROJECTS\Yusur\YusurIntegration\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 D:\COREPROJECTS\Yusur\YusurIntegration\obj\Debug\net9.0\YusurInt.70297B10.Up2Date
 D:\COREPROJECTS\Yusur\YusurIntegration\obj\Debug\net9.0\YusurIntegration.dll
 D:\COREPROJECTS\Yusur\YusurIntegration\obj\Debug\net9.0\refint\YusurIntegration.dll

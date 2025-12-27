@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using YusurIntegration.Data;
 using YusurIntegration.Services;
 namespace YusurIntegration.Hubs
 {
     public class YusurHub : Hub
     {
-        //private readonly ConnectionManager _cm;
+        private readonly ConnectionManager _cm;
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly ILogger<YusurHub> _logger;
 
@@ -15,8 +16,9 @@ namespace YusurIntegration.Hubs
         //    _scopeFactory = scopeFactory;
         //    _logger = logger;
         //}
-            public YusurHub( IServiceScopeFactory scopeFactory, ILogger<YusurHub> logger)
+            public YusurHub(ConnectionManager connections, IServiceScopeFactory scopeFactory, ILogger<YusurHub> logger)
             {
+            _cm = connections;
             _scopeFactory = scopeFactory;
             _logger = logger;
             }
@@ -60,24 +62,24 @@ namespace YusurIntegration.Hubs
                 var http = Context.GetHttpContext();
                 var connId = Context.ConnectionId;
                 var branch = http?.Request.Query["branch"].ToString();
-                if (!string.IsNullOrEmpty(branch))
-                    {
-                        await Groups.AddToGroupAsync(connId, branch);
-                    }
-                using var scope = _scopeFactory.CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                var pending = db.PendingMessages
-                    .Where(x => x.BranchLicense == branch)
-                    .OrderBy(x => x.CreatedAt)
-                    .ToList();
 
-                foreach (var msg in pending)
+            var isAdmin = http?.Request.Query["isAdmin"].ToString() == "true";
+
+            if (isAdmin)
+            {
+                await Groups.AddToGroupAsync(Context.ConnectionId, "Admins");
+                if (!string.IsNullOrEmpty(branch))
+                    await Clients.Group("Admins").SendAsync("AdminLog", $"Branch {branch} connected.");
+            }
+
+            if (!string.IsNullOrEmpty(branch))
                 {
-                    await Clients.Client(connId)
-                        .SendAsync(msg.MessageType, msg);
-                }
-                await db.SaveChangesAsync();
-                await base.OnConnectedAsync();
+                 await Groups.AddToGroupAsync(connId, branch);
+                _cm.Add(branch, Context.ConnectionId);
+                _logger.LogInformation($"Client {connId} connected to branch {branch}");
+                await ProcessPendingMessages(connId, branch);
+               }
+               await base.OnConnectedAsync();
             }
             public async Task RegisterClientInfo(string license, string posName)
             {
@@ -89,11 +91,40 @@ namespace YusurIntegration.Hubs
             // This is the FIX for the "couple of minutes" disconnection
             public override async Task OnDisconnectedAsync(Exception? exception)
             {
-                // No manual cleanup needed for Groups! 
-                // SignalR removes the connection automatically.
+            // No manual cleanup needed for Groups! 
+            // SignalR removes the connection automatically.
+                _cm.RemoveByConnectionId(Context.ConnectionId);
                 await base.OnDisconnectedAsync(exception);
             }
+
+            private async Task ProcessPendingMessages(string connId, string branch)
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            try
+            {
+                var pending = await db.PendingMessages
+                    .Where(x => x.BranchLicense == branch)
+                    .OrderBy(x => x.CreatedAt)
+                    .ToListAsync();
+
+                if (pending.Any())
+                {
+                    foreach (var msg in pending)
+                    {
+                        await Clients.Client(connId).SendAsync(msg.MessageType, msg);
+                    }
+                _logger.LogInformation($"Delivered {pending.Count} pending messages to connection {connId} for branch {branch}.");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error processing pending messages for branch {Branch}", branch);
+            }
         }
+
+    }
 
  }
 

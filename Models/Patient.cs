@@ -8,13 +8,16 @@ namespace YusurIntegration.Models
         [Key] 
         [ForeignKey("Order")]
         public string OrderId { get; set; }
+        [Required]
         public string nationalId { get; set; }
+        [Required]
         public string memberId { get; set; }
+        [Required]
         public string firstName { get; set; }
         public string? lastName { get; set; }
         public string? bloodGroup { get; set; }
         public string? dateOfBirth { get; set; }
-        public string gender { get; set; }
+        public string? gender { get; set; }
 
         public virtual Order Order { get; set; }
     }

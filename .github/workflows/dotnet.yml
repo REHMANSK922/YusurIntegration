@@ -1,0 +1,64 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Deploy YusurIntegration
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Build & Publish
+        run: dotnet publish ./YusurIntegration.csproj -c Release -o ./publish_temp
+
+      # STEP 1: Upload files from GitHub Runner to a temporary directory on VM
+      - name: Upload to VM
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.GCP_VM_HOST }}
+          username: ${{ secrets.GCP_VM_USER }}
+          key: ${{ secrets.GCP_SSH_KEY }}
+          source: "./publish_temp/*"
+          target: "/home/apipublisher/deploy_staging"
+          strip_components: 1
+
+      # STEP 2: Organize folders and restart service via SSH
+      - name: Deploy and Restart
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.GCP_VM_HOST }}
+          username: ${{ secrets.GCP_VM_USER }}
+          key: ${{ secrets.GCP_SSH_KEY }}
+          script: |
+            TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+            RELEASE_DIR="/var/www/yusurwebhook/releases/$TIMESTAMP"
+            STAGING_DIR="/home/apipublisher/deploy_staging"
+            # Use sudo without password (as configured in visudo)
+            sudo /usr/bin/mkdir -p "$RELEASE_DIR"
+            if [ "$(ls -A $STAGING_DIR)" ]; then
+                sudo /usr/bin/mv $STAGING_DIR/* "$RELEASE_DIR/"
+            else
+                echo "Error: Staging directory is empty!"
+                exit 1
+            fi
+            
+            sudo /usr/bin/chown -R apipublisher:apipublisher "$RELEASE_DIR"
+            sudo /usr/bin/ln -sfn "$RELEASE_DIR" /var/www/yusurwebhook/current
+            sudo /usr/bin/chown -h apipublisher:apipublisher /var/www/yusurwebhook/current
+            sudo /usr/bin/rm -rf $STAGING_DIR/*
+            sleep 5
+            # Restart the service
+            sudo /usr/bin/systemctl restart yusur-api

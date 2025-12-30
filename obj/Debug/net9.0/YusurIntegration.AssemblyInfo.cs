@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("YusurIntegration")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2a446cafa7eeb9d34531223cfb07e85ed94a41a4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ca3b7ec973e646c1603e28ed3b1fd4f8d61d2297")]
 [assembly: System.Reflection.AssemblyProductAttribute("YusurIntegration")]
 [assembly: System.Reflection.AssemblyTitleAttribute("YusurIntegration")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

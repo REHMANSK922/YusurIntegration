@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 .gitconfig
+# Ignore SSH deployment keys
+git-yusur-deploy-key.pub
+git-yusur-deploy-key

@@ -144,12 +144,13 @@ builder.Services.AddCors(options =>
 //    });
 
 builder.Services.AddHealthChecks()
+
 .AddCheck("Yusur-Database-Check", () =>
  {
      try
      {
          using var connection = new FirebirdSql.Data.FirebirdClient.FbConnection(
-             builder.Configuration.GetConnectionString("Firebirdyusur"));
+             builder.Configuration.GetConnectionString("Firebirdlocal"));
          connection.Open();
          return HealthCheckResult.Healthy();
      }

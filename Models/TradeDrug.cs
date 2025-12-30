@@ -6,10 +6,14 @@ namespace YusurIntegration.Models
     public class TradeDrug
     {
         [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
-        [Required]
+        public int Id { get; set; }
+
         [ForeignKey(nameof(Activity))]
+        public int ActivityForeignId { get; set; }
+
+        [Required]
         public string ActivityId { get; set; }
+
         [Required]
         public string Code { get; set; }
         [Required]

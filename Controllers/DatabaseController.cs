@@ -1,33 +1,33 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using YusurIntegration.Repositories.Interfaces;
+using YusurIntegration.Services;
 using YusurIntegration.Services.Interfaces;
 
 namespace YusurIntegration.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Database")]
     [ApiController]
     public class DatabaseController : ControllerBase
     {
-
-        private readonly IDatabaseService _ordersdbervice;
+        private readonly IDatabaseService _databaseService;
         private readonly ILogger<DatabaseController> _logger;
 
         public DatabaseController(
-            IDatabaseService orderdbservice,
-            ILogger<DatabaseController> logger
-            )
+            IDatabaseService databaseService,
+            ILogger<DatabaseController> logger)
         {
-            _ordersdbervice = orderdbservice;
+            _databaseService = databaseService;
             _logger = logger;
         }
+
         // GET: api/database/license/{branchLicense}
-        [HttpGet("license/{branchLicense}")]
+       [HttpGet("license/{branchLicense}")]
         public async Task<IActionResult> GetByLicense(string branchLicense, [FromQuery] string? status = null)
         {
             try
             {
-                var data = await _ordersdbervice.GetAllDataByLicenseAsync(branchLicense, status);
+                var data = await _databaseService.GetAllDataByLicenseAsync(branchLicense, status);
                 return Ok(new { Success = true, Data = data });
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ namespace YusurIntegration.Controllers
         {
             try
             {
-                var orders = await _ordersdbervice.GetOrdersByLicenseAsync(branchLicense, status);
+                var orders = await _databaseService.GetOrdersByLicenseAsync(branchLicense, status);
                 return Ok(new { Success = true, Orders = orders, Count = orders.Count() });
             }
             catch (Exception ex)
@@ -59,7 +59,7 @@ namespace YusurIntegration.Controllers
         {
             try
             {
-                var activities = await _ordersdbervice.GetActivitiesByLicenseAsync(branchLicense, status);
+                var activities = await _databaseService.GetActivitiesByLicenseAsync(branchLicense, status);
                 return Ok(new { Success = true, Activities = activities, Count = activities.Count() });
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace YusurIntegration.Controllers
         {
             try
             {
-                var tradeDrugs = await _ordersdbervice.GetTradeDrugsByLicenseAsync(branchLicense, status);
+                var tradeDrugs = await _databaseService.GetTradeDrugsByLicenseAsync(branchLicense, status);
                 return Ok(new { Success = true, TradeDrugs = tradeDrugs, Count = tradeDrugs.Count() });
             }
             catch (Exception ex)
@@ -91,12 +91,12 @@ namespace YusurIntegration.Controllers
         {
             try
             {
-                var totalCount = await _ordersdbervice.GetRecordCountsByLicenseAsync(branchLicense, status);
+                var totalCount = await _databaseService.GetRecordCountsByLicenseAsync(branchLicense, status);
 
                 // Get individual counts
-                var orders = await _ordersdbervice.GetOrdersByLicenseAsync(branchLicense, status);
-                var activities = await _ordersdbervice.GetActivitiesByLicenseAsync(branchLicense, status);
-                var tradeDrugs = await _ordersdbervice.GetTradeDrugsByLicenseAsync(branchLicense, status);
+                var orders = await _databaseService.GetOrdersByLicenseAsync(branchLicense, status);
+                var activities = await _databaseService.GetActivitiesByLicenseAsync(branchLicense, status);
+                var tradeDrugs = await _databaseService.GetTradeDrugsByLicenseAsync(branchLicense, status);
 
                 return Ok(new
                 {
@@ -123,7 +123,7 @@ namespace YusurIntegration.Controllers
         {
             try
             {
-                var count = await _ordersdbervice.DeleteOrdersByLicenseAsync(branchLicense, status);
+                var count = await _databaseService.DeleteOrdersByLicenseAsync(branchLicense, status);
                 _logger.LogInformation("Deleted {Count} orders for license {License} with status {Status}",
                     count, branchLicense, status ?? "all");
 
@@ -142,7 +142,7 @@ namespace YusurIntegration.Controllers
         {
             try
             {
-                var count = await _ordersdbervice.DeleteAllDataByLicenseAsync(branchLicense, status);
+                var count = await _databaseService.DeleteAllDataByLicenseAsync(branchLicense, status);
                 _logger.LogInformation("Deleted all data ({Count} records) for license {License} with status {Status}",
                     count, branchLicense, status ?? "all");
 
@@ -161,7 +161,7 @@ namespace YusurIntegration.Controllers
         {
             try
             {
-                var data = await _ordersdbervice.GetAllDataByLicenseAsync(branchLicense, status);
+                var data = await _databaseService.GetAllDataByLicenseAsync(branchLicense, status);
 
                 if (format.ToLower() == "csv")
                 {
@@ -182,3 +182,4 @@ namespace YusurIntegration.Controllers
 
     }
 }
+    

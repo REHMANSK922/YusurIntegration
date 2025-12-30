@@ -5,7 +5,8 @@ namespace YusurIntegration.Models
 {
     public class Patient
     {
-        [Key] 
+        [Key]
+        public int Id { get; set; }
         [ForeignKey("Order")]
         public string OrderId { get; set; }
         [Required]

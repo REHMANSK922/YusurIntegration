@@ -4,6 +4,7 @@ using YusurIntegration.Data;
 using YusurIntegration.DTOs;
 using YusurIntegration.Hubs;
 using YusurIntegration.Models;
+using YusurIntegration.Models.Enums;
 using YusurIntegration.Services.Interfaces;
 //using static YusurIntegration.DTOs.YusurPayloads;
 namespace YusurIntegration.Services
@@ -149,8 +150,22 @@ namespace YusurIntegration.Services
                       ))
                       .ToList();
                 var request = new YusurPayloads.OrderAcceptRequestDto(order.OrderId, activities);
-                var success =  await _yusur.AcceptOrderAsync(request);
+                var success = await _yusur.AcceptOrderAsync(request);
+                if (success)
+                {
+                    _logger.LogInformation($"Order {order.OrderId} send successfully.");
+                    await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderSubmitted", new
+                    {
+                        Order = order,
+                        Status = "ACCEPTED_BY_PROVIDER"
+                    });
 
+                }
+                else
+                {
+                    _logger.LogWarning($"Failed to accept order {order.OrderId}.");
+
+                }
             }
             else
             {
@@ -245,6 +260,15 @@ namespace YusurIntegration.Services
             if (order == null) return;
             var internalstatus = OrderStatusMapper.FromYusur(dto.status);
             order.Status = dto.status;
+            if(dto.status == "ACCEPTED_BY_PROVIDER")
+            {
+               await  _hub.Clients.Group(dto.branchLicense).SendAsync("OrderAccepted", new
+                {
+                    OrderId = order.OrderId,
+                    Status = dto.status
+                });
+                //do update     the singalr client that order is accepted
+            }
             _db.OrderStatusHistory.Add(new OrderStatusHistory { OrderId = order.OrderId, Status = internalstatus,FailureReason = dto.failureReason });
             await _db.SaveChangesAsync();
         }

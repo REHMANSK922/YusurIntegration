@@ -41,58 +41,124 @@ namespace YusurIntegration.Data
         {
             base.OnModelCreating(modelBuilder);
 
-
-
-            // Order Configuration
             modelBuilder.Entity<Order>(entity =>
             {
-                entity.HasKey(e => e.OrderId);
+                entity.HasKey(e => e.OrderId); // Auto-generated PK
+
+                // Make OrderId unique if it's a business identifier
+                //entity.HasIndex(e => e.OrderId).IsUnique();
+
+
 
                 entity.HasOne(e => e.Patient)
                     .WithOne(e => e.Order)
-                    .HasForeignKey<Patient>(e => e.OrderId)
+                    .HasForeignKey<Patient>(e => e.OrderId) // Changed to avoid confusion
                     .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.ShippingAddress)
                     .WithOne(e => e.Order)
-                    .HasForeignKey<ShippingAddress>(e => e.OrderId)
+                    .HasForeignKey<ShippingAddress>(e => e.OrderId) // Changed to avoid confusion
                     .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasMany(e => e.Activities)
                     .WithOne(e => e.Order)
-                    .HasForeignKey(e => e.OrderId)
+                    .HasForeignKey(e => e.OrderId) // Changed to avoid confusion
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
             // Activity Configuration
             modelBuilder.Entity<Activity>(entity =>
             {
-                entity.HasKey(e => e.ActivityId);
+                entity.HasKey(e => e.Id); // Auto-generated PK
+
+                // Make ActivityId unique if it's a business identifier
+                ////entity.HasIndex(e => e.ActivityId).IsUnique();
+
+                entity.HasIndex(e => new { e.OrderId, e.ActivityId })
+                .IsUnique();
+
 
                 entity.HasMany(e => e.TradeDrugs)
                     .WithOne(e => e.Activity)
-                    .HasForeignKey(e => e.ActivityId)
+                    .HasForeignKey(e => e.ActivityForeignId) // Changed to avoid confusion
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
             // Patient Configuration
             modelBuilder.Entity<Patient>(entity =>
             {
-                entity.HasKey(e => e.OrderId);
+                entity.HasKey(e => e.Id);
             });
 
             // ShippingAddress Configuration
             modelBuilder.Entity<ShippingAddress>(entity =>
             {
-                entity.HasKey(e => e.OrderId);
-                entity.OwnsOne(e => e.Coordinates);
+                entity.HasKey(e => e.Id);
             });
 
             // TradeDrug Configuration
             modelBuilder.Entity<TradeDrug>(entity =>
             {
+
                 entity.HasKey(e => e.Id);
             });
+
+
+
+
+
+            // after adding Id in all tables to avoid duplicate key issues
+
+            // Order Configuration
+            //modelBuilder.Entity<Order>(entity =>
+            //{
+            //    entity.HasKey(e => e.OrderId);
+
+            //    entity.HasOne(e => e.Patient)
+            //        .WithOne(e => e.Order)
+            //        .HasForeignKey<Patient>(e => e.OrderId)
+            //        .OnDelete(DeleteBehavior.Cascade);
+
+            //    entity.HasOne(e => e.ShippingAddress)
+            //        .WithOne(e => e.Order)
+            //        .HasForeignKey<ShippingAddress>(e => e.OrderId)
+            //        .OnDelete(DeleteBehavior.Cascade);
+
+            //    entity.HasMany(e => e.Activities)
+            //        .WithOne(e => e.Order)
+            //        .HasForeignKey(e => e.OrderId)
+            //        .OnDelete(DeleteBehavior.Cascade);
+            //});
+
+            //// Activity Configuration
+            //modelBuilder.Entity<Activity>(entity =>
+            //{
+            //    entity.HasKey(e => e.ActivityId);
+
+            //    entity.HasMany(e => e.TradeDrugs)
+            //        .WithOne(e => e.Activity)
+            //        .HasForeignKey(e => e.ActivityId)
+            //        .OnDelete(DeleteBehavior.Cascade);
+            //});
+
+            //// Patient Configuration
+            //modelBuilder.Entity<Patient>(entity =>
+            //{
+            //    entity.HasKey(e => e.OrderId);
+            //});
+
+            //// ShippingAddress Configuration
+            //modelBuilder.Entity<ShippingAddress>(entity =>
+            //{
+            //    entity.HasKey(e => e.OrderId);
+            //    entity.OwnsOne(e => e.Coordinates);
+            //});
+
+            //// TradeDrug Configuration
+            //modelBuilder.Entity<TradeDrug>(entity =>
+            //{
+            //    entity.HasKey(e => e.Id);
+            //});
 
 
             //modelBuilder.Entity<Order>().HasKey(o => o.Id);

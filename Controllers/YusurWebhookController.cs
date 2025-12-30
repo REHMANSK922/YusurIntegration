@@ -189,7 +189,7 @@ namespace YusurIntegration.Controllers
             if (!ValidateSecret()) return Unauthorized();
 
             var payload = System.Text.Json.JsonSerializer.Serialize(dto);
-            await _db.WebhookLogs.AddAsync(new Models.WebhookLog { WebhookType = "notifyOrderStatusUpdate", Payload = payload, BranchLicense = dto.branchLicense });
+            await _db.WebhookLogs.AddAsync(new Models.WebhookLog { WebhookType = "notifyOrderStatusUpdate", OrderId= dto.orderId, Payload = payload, BranchLicense = dto.branchLicense });
             await _db.SaveChangesAsync();
             await _orders.HandleStatusUpdateAsync(dto);
             return Ok();

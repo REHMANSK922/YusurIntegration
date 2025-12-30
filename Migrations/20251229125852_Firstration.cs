@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace YusurIntegration.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Firstration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -167,10 +167,14 @@ namespace YusurIntegration.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn),
-                    Username = table.Column<string>(type: "VARCHAR(256)", nullable: false),
+                    Username = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
                     PasswordHash = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
-                    Role = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP", nullable: false)
+                    Role = table.Column<string>(type: "VARCHAR(20)", maxLength: 20, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP", nullable: false),
+                    LastLoginAt = table.Column<DateTime>(type: "TIMESTAMP", nullable: true),
+                    IsActive = table.Column<bool>(type: "BOOLEAN", nullable: false),
+                    RefreshToken = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
+                    RefreshTokenExpiry = table.Column<DateTime>(type: "TIMESTAMP", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -288,6 +292,8 @@ namespace YusurIntegration.Migrations
                 name: "Activities",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn),
                     ActivityId = table.Column<string>(type: "VARCHAR(256)", nullable: false),
                     OrderId = table.Column<string>(type: "VARCHAR(256)", nullable: false),
                     GenericCode = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
@@ -304,7 +310,7 @@ namespace YusurIntegration.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Activities", x => x.ActivityId);
+                    table.PrimaryKey("PK_Activities", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Activities_Orders_OrderId",
                         column: x => x.OrderId,
@@ -317,6 +323,8 @@ namespace YusurIntegration.Migrations
                 name: "Patients",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn),
                     OrderId = table.Column<string>(type: "VARCHAR(256)", nullable: false),
                     nationalId = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
                     memberId = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
@@ -328,7 +336,7 @@ namespace YusurIntegration.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Patients", x => x.OrderId);
+                    table.PrimaryKey("PK_Patients", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Patients_Orders_OrderId",
                         column: x => x.OrderId,
@@ -341,6 +349,8 @@ namespace YusurIntegration.Migrations
                 name: "ShippingAddress",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn),
                     OrderId = table.Column<string>(type: "VARCHAR(256)", nullable: false),
                     addressLine1 = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
                     addressLine2 = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: true),
@@ -351,7 +361,7 @@ namespace YusurIntegration.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShippingAddress", x => x.OrderId);
+                    table.PrimaryKey("PK_ShippingAddress", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ShippingAddress_Orders_Orde~",
                         column: x => x.OrderId,
@@ -364,8 +374,10 @@ namespace YusurIntegration.Migrations
                 name: "TradeDrugs",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "CHAR(16) CHARACTER SET OCTETS", nullable: false),
-                    ActivityId = table.Column<string>(type: "VARCHAR(256)", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn),
+                    ActivityForeignId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ActivityId = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
                     Code = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
                     Name = table.Column<string>(type: "BLOB SUB_TYPE TEXT", nullable: false),
                     Quantity = table.Column<int>(type: "INTEGER", nullable: false)
@@ -375,11 +387,17 @@ namespace YusurIntegration.Migrations
                     table.PrimaryKey("PK_TradeDrugs", x => x.Id);
                     table.ForeignKey(
                         name: "FK_TradeDrugs_Activities_Activ~",
-                        column: x => x.ActivityId,
+                        column: x => x.ActivityForeignId,
                         principalTable: "Activities",
-                        principalColumn: "ActivityId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Activities_ActivityId",
+                table: "Activities",
+                column: "ActivityId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Activities_OrderId",
@@ -387,9 +405,27 @@ namespace YusurIntegration.Migrations
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Orders_OrderId",
+                table: "Orders",
+                column: "OrderId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_OrderId",
+                table: "Patients",
+                column: "OrderId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PendingMessages_MessageId",
                 table: "PendingMessages",
                 column: "MessageId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShippingAddress_OrderId",
+                table: "ShippingAddress",
+                column: "OrderId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -399,9 +435,9 @@ namespace YusurIntegration.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TradeDrugs_ActivityId",
+                name: "IX_TradeDrugs_ActivityForeignId",
                 table: "TradeDrugs",
-                column: "ActivityId");
+                column: "ActivityForeignId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Username",

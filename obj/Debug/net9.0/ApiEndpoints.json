@@ -32,6 +32,179 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "YusurIntegration.Controllers.DatabaseController",
+    "Method": "GetActivitiesByLicense",
+    "RelativePath": "api/Database/activities/license/{branchLicense}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "branchLicense",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YusurIntegration.Controllers.DatabaseController",
+    "Method": "DeleteAllByLicense",
+    "RelativePath": "api/Database/all/license/{branchLicense}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "branchLicense",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YusurIntegration.Controllers.DatabaseController",
+    "Method": "GetRecordCounts",
+    "RelativePath": "api/Database/counts/license/{branchLicense}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "branchLicense",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YusurIntegration.Controllers.DatabaseController",
+    "Method": "ExportData",
+    "RelativePath": "api/Database/export/license/{branchLicense}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "branchLicense",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "format",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YusurIntegration.Controllers.DatabaseController",
+    "Method": "GetByLicense",
+    "RelativePath": "api/Database/license/{branchLicense}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "branchLicense",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YusurIntegration.Controllers.DatabaseController",
+    "Method": "GetOrdersByLicense",
+    "RelativePath": "api/Database/orders/license/{branchLicense}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "branchLicense",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YusurIntegration.Controllers.DatabaseController",
+    "Method": "DeleteOrdersByLicense",
+    "RelativePath": "api/Database/orders/license/{branchLicense}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "branchLicense",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YusurIntegration.Controllers.DatabaseController",
+    "Method": "GetTradeDrugsByLicense",
+    "RelativePath": "api/Database/tradedrugs/license/{branchLicense}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "branchLicense",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "YusurIntegration.Controllers.YusurWebhookController",
     "Method": "NotifyAuthorizationResponseReceived",
     "RelativePath": "api/webhooks/notifyAuthorizationResponseReceived",

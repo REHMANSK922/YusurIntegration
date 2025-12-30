@@ -1,10 +1,15 @@
-﻿namespace YusurIntegration.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace YusurIntegration.Models
 {
 
     public class ApprovedDrug
     {
         public int Id { get; set; }
+
+        [Required]
         public string ItemNo { get; set; }          // link to stock
+        [Required]
         public string Sfdacode { get; set; }     // link to Wasfaty
 
         public string? GenericCode { get; set; }

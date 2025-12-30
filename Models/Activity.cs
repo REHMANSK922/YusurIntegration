@@ -6,11 +6,13 @@ namespace YusurIntegration.Models
     public class Activity
     {
         [Key]
-        public string ActivityId { get; set; }
+        public int Id { get; set; }
+
+        public required string ActivityId { get; set; }
 
         [Required]
         [ForeignKey(nameof(Order))]
-        public string OrderId { get; set; }
+        public  string OrderId { get; set; }
 
         [Required]
         public string GenericCode { get; set; }

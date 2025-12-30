@@ -7,7 +7,7 @@ namespace YusurIntegration.Models
     public class Order
     {
         [Key]
-        public string OrderId { get; set; }
+        public required string OrderId { get; set; }
 
         [Required]
         public string VendorId { get; set; }

@@ -12,8 +12,8 @@ using YusurIntegration.Data;
 namespace YusurIntegration.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251225080110_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251229125852_Firstration")]
+    partial class Firstration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,7 +26,13 @@ namespace YusurIntegration.Migrations
 
             modelBuilder.Entity("YusurIntegration.Models.Activity", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasAnnotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("ActivityId")
+                        .IsRequired()
                         .HasColumnType("VARCHAR(256)");
 
                     b.Property<string>("ArabicInstructions")
@@ -68,7 +74,10 @@ namespace YusurIntegration.Migrations
                     b.Property<string>("rejectionReason")
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
-                    b.HasKey("ActivityId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActivityId")
+                        .IsUnique();
 
                     b.HasIndex("OrderId");
 
@@ -200,6 +209,9 @@ namespace YusurIntegration.Migrations
 
                     b.HasKey("OrderId");
 
+                    b.HasIndex("OrderId")
+                        .IsUnique();
+
                     b.ToTable("Orders");
                 });
 
@@ -224,7 +236,13 @@ namespace YusurIntegration.Migrations
 
             modelBuilder.Entity("YusurIntegration.Models.Patient", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasAnnotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("OrderId")
+                        .IsRequired()
                         .HasColumnType("VARCHAR(256)");
 
                     b.Property<string>("bloodGroup")
@@ -251,7 +269,10 @@ namespace YusurIntegration.Migrations
                         .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
-                    b.HasKey("OrderId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.ToTable("Patients");
                 });
@@ -362,7 +383,13 @@ namespace YusurIntegration.Migrations
 
             modelBuilder.Entity("YusurIntegration.Models.ShippingAddress", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasAnnotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("OrderId")
+                        .IsRequired()
                         .HasColumnType("VARCHAR(256)");
 
                     b.Property<string>("addressLine1")
@@ -377,7 +404,10 @@ namespace YusurIntegration.Migrations
                     b.Property<string>("city")
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
-                    b.HasKey("OrderId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.ToTable("ShippingAddress");
                 });
@@ -424,13 +454,17 @@ namespace YusurIntegration.Migrations
 
             modelBuilder.Entity("YusurIntegration.Models.TradeDrug", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("CHAR(16) CHARACTER SET OCTETS");
+                        .HasColumnType("INTEGER")
+                        .HasAnnotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ActivityForeignId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ActivityId")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(256)");
+                        .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -445,7 +479,7 @@ namespace YusurIntegration.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ActivityId");
+                    b.HasIndex("ActivityForeignId");
 
                     b.ToTable("TradeDrugs");
                 });
@@ -460,17 +494,31 @@ namespace YusurIntegration.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TIMESTAMP");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("BOOLEAN");
+
+                    b.Property<DateTime?>("LastLoginAt")
+                        .HasColumnType("TIMESTAMP");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("BLOB SUB_TYPE TEXT");
+
+                    b.Property<DateTime?>("RefreshTokenExpiry")
+                        .HasColumnType("TIMESTAMP");
+
                     b.Property<string>("Role")
                         .IsRequired()
-                        .HasColumnType("BLOB SUB_TYPE TEXT");
+                        .HasMaxLength(20)
+                        .HasColumnType("VARCHAR(20)");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(256)");
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR(50)");
 
                     b.HasKey("Id");
 
@@ -862,8 +910,8 @@ namespace YusurIntegration.Migrations
 
                     b.OwnsOne("YusurIntegration.Models.Coordinates", "Coordinates", b1 =>
                         {
-                            b1.Property<string>("ShippingAddressOrderId")
-                                .HasColumnType("VARCHAR(256)");
+                            b1.Property<int>("ShippingAddressId")
+                                .HasColumnType("INTEGER");
 
                             b1.Property<double>("latitude")
                                 .HasColumnType("DOUBLE PRECISION");
@@ -871,12 +919,12 @@ namespace YusurIntegration.Migrations
                             b1.Property<double>("longitude")
                                 .HasColumnType("DOUBLE PRECISION");
 
-                            b1.HasKey("ShippingAddressOrderId");
+                            b1.HasKey("ShippingAddressId");
 
                             b1.ToTable("ShippingAddress");
 
                             b1.WithOwner()
-                                .HasForeignKey("ShippingAddressOrderId");
+                                .HasForeignKey("ShippingAddressId");
                         });
 
                     b.Navigation("Coordinates");
@@ -888,7 +936,7 @@ namespace YusurIntegration.Migrations
                 {
                     b.HasOne("YusurIntegration.Models.Activity", "Activity")
                         .WithMany("TradeDrugs")
-                        .HasForeignKey("ActivityId")
+                        .HasForeignKey("ActivityForeignId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

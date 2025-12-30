@@ -44,7 +44,6 @@ namespace YusurIntegration.Repositories
                 {
                     query = query.Where(o => o.Status == status);
                 }
-
                 return await query.ToListAsync();
             }
             catch (Exception ex)

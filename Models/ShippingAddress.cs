@@ -5,7 +5,9 @@ namespace YusurIntegration.Models
 {
     public class ShippingAddress
     {
+
         [Key] // Sets OrderId as the Primary Key
+        public int Id { get; set; }
         [ForeignKey(nameof(Order))]
         public string OrderId { get; set; }
         public  string? addressLine1 { get; set; }

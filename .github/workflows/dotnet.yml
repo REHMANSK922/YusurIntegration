@@ -61,3 +61,20 @@ jobs:
             sleep 5
             # Restart the service
             sudo /usr/bin/systemctl restart yusur-api
+            # 4. HEALTH CHECK VERIFICATION
+            echo "Waiting for app to start..."
+            sleep 7
+            if curl -s --head http://localhost:5001/health | grep "200 OK" > /dev/null
+            then
+                echo "Deployment Successful: Health Check Passed."
+            else
+                echo "Deployment Warning: Health Check Failed (503/404)."
+                # Optional: exit 1 # Uncomment this to make the GitHub Action turn red on failure
+            fi
+
+            # 5. CLEANUP: Keep only the 5 most recent releases
+            echo "Cleaning up old releases..."
+            cd $RELEASE_BASE && sudo ls -t | tail -n +6 | xargs -I {} sudo rm -rf -- "{}"
+            
+            # 6. Final Staging Cleanup
+            sudo /usr/bin/rm -rf $STAGING_DIR/*

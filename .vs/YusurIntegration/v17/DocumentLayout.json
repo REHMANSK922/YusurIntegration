@@ -11,20 +11,12 @@
       "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\models\\activity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:models\\activity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\yusurintegration.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:yusurintegration.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\controllers\\databasecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:controllers\\databasecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\yusurintegration.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:yusurintegration.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\repositories\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -53,10 +45,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\models\\successresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:models\\successresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\models\\pharmacygroups.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|solutionrelative:models\\pharmacygroups.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{28745CCD-5EF8-4577-957A-DAE000AFB4B2}|YusurIntegration.csproj|d:\\coreprojects\\yusur\\yusurintegration\\models\\pharmacies.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -122,7 +110,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 312,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -130,41 +118,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Data\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
-              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Data\\AppDbContext.cs",
-              "RelativeToolTip": "Data\\AppDbContext.cs",
-              "ViewState": "AgIAADMAAAAAAAAAAAAgwEwAAABFAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAIIAAAAAAAAAAAAAAJQAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-30T07:14:22.648Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Activity.cs",
-              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\Activity.cs",
-              "RelativeDocumentMoniker": "Models\\Activity.cs",
-              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\Activity.cs",
-              "RelativeToolTip": "Models\\Activity.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAxwAoAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-30T07:12:14.102Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "PharmacyGroups.cs",
-              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\PharmacyGroups.cs",
-              "RelativeDocumentMoniker": "Models\\PharmacyGroups.cs",
-              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\PharmacyGroups.cs",
-              "RelativeToolTip": "Models\\PharmacyGroups.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-28T08:26:19.793Z",
+              "WhenOpened": "2025-12-31T05:59:24.015Z",
               "EditorCaption": ""
             },
             {
@@ -175,27 +137,14 @@
               "RelativeDocumentMoniker": "appsettings.json",
               "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\appsettings.json",
               "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-12-28T13:47:16.543Z",
+              "WhenOpened": "2025-12-31T05:59:12.857Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAIoAAAAAAAAAAAAAAJgAAABFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-28T11:30:04.686Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "YusurIntegration",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\YusurIntegration.csproj",
               "RelativeDocumentMoniker": "YusurIntegration.csproj",
@@ -207,7 +156,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 11,
               "Title": "Pharmacies.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\Pharmacies.cs",
               "RelativeDocumentMoniker": "Models\\Pharmacies.cs",
@@ -220,7 +169,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
               "Title": "OrderRepository.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Repositories\\OrderRepository.cs",
               "RelativeDocumentMoniker": "Repositories\\OrderRepository.cs",
@@ -233,7 +182,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 5,
               "Title": "DatabaseService.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\DatabaseService.cs",
               "RelativeDocumentMoniker": "Services\\DatabaseService.cs",
@@ -246,7 +195,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "DatabaseController.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Controllers\\DatabaseController.cs",
               "RelativeDocumentMoniker": "Controllers\\DatabaseController.cs",
@@ -259,7 +208,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 6,
               "Title": "WebhookLog.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\WebhookLog.cs",
               "RelativeDocumentMoniker": "Models\\WebhookLog.cs",
@@ -272,7 +221,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 7,
               "Title": "YusurUsers.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\YusurUsers.cs",
               "RelativeDocumentMoniker": "Models\\YusurUsers.cs",
@@ -285,7 +234,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 9,
               "Title": "WasfatyDrugs.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\WasfatyDrugs.cs",
               "RelativeDocumentMoniker": "Models\\WasfatyDrugs.cs",
@@ -298,7 +247,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 8,
               "Title": "OrderService.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\OrderService.cs",
               "RelativeDocumentMoniker": "Services\\OrderService.cs",
@@ -311,7 +260,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 10,
               "Title": "SuccessResponse.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Models\\SuccessResponse.cs",
               "RelativeDocumentMoniker": "Models\\SuccessResponse.cs",
@@ -324,7 +273,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 13,
               "Title": "PendingMessageRepository.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Repositories\\PendingMessageRepository.cs",
               "RelativeDocumentMoniker": "Repositories\\PendingMessageRepository.cs",
@@ -337,7 +286,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 14,
               "Title": "ApprovedDrugRepository.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Repositories\\ApprovedDrugRepository.cs",
               "RelativeDocumentMoniker": "Repositories\\ApprovedDrugRepository.cs",
@@ -350,7 +299,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 12,
               "Title": "AuthorizationService.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\AuthorizationService.cs",
               "RelativeDocumentMoniker": "Services\\AuthorizationService.cs",
@@ -363,7 +312,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 19,
               "Title": "ConnectionManager.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\ConnectionManager.cs",
               "RelativeDocumentMoniker": "Services\\ConnectionManager.cs",
@@ -376,7 +325,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 18,
               "Title": "StockService.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\StockService.cs",
               "RelativeDocumentMoniker": "Services\\StockService.cs",
@@ -389,7 +338,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 16,
               "Title": "OrderValidationService.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\OrderValidationService.cs",
               "RelativeDocumentMoniker": "Services\\OrderValidationService.cs",
@@ -402,7 +351,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 15,
               "Title": "SignatureValidationService.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\SignatureValidationService.cs",
               "RelativeDocumentMoniker": "Services\\SignatureValidationService.cs",
@@ -415,7 +364,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 17,
               "Title": "IOrderValidationService.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\Interfaces\\IOrderValidationService.cs",
               "RelativeDocumentMoniker": "Services\\Interfaces\\IOrderValidationService.cs",
@@ -428,7 +377,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 20,
               "Title": "YusurApiClient.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Services\\YusurApiClient.cs",
               "RelativeDocumentMoniker": "Services\\YusurApiClient.cs",
@@ -441,7 +390,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 22,
               "Title": "TokenRepository.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Repositories\\TokenRepository.cs",
               "RelativeDocumentMoniker": "Repositories\\TokenRepository.cs",
@@ -454,7 +403,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 21,
               "Title": "WasfatyDrugRepository.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Repositories\\WasfatyDrugRepository.cs",
               "RelativeDocumentMoniker": "Repositories\\WasfatyDrugRepository.cs",
@@ -467,7 +416,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 23,
               "Title": "StockRepository.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\Repositories\\StockRepository.cs",
               "RelativeDocumentMoniker": "Repositories\\StockRepository.cs",
@@ -480,7 +429,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 24,
               "Title": "ItemValidation.cs",
               "DocumentMoniker": "D:\\COREPROJECTS\\Yusur\\YusurIntegration\\DTOs\\ItemValidation.cs",
               "RelativeDocumentMoniker": "DTOs\\ItemValidation.cs",

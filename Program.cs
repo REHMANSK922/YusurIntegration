@@ -34,29 +34,32 @@ else
 //        shared: true) // Add this for file sharing
 //    .CreateLogger();
 
-try
-{
-    Log.Logger = new LoggerConfiguration()
-        .MinimumLevel.Debug()
-        .Enrich.FromLogContext()
-        .WriteTo.Console()
-        .WriteTo.File(
-            logPath,
-            rollingInterval: RollingInterval.Day,
-            flushToDiskInterval: TimeSpan.FromSeconds(1)) // <--- ADD THIS LINE
-        .CreateLogger();
-    Log.Information("Logger initialized successfully at: {LogPath}", logPath);
+//try
+//{
+//    Log.Logger = new LoggerConfiguration()
+//        .MinimumLevel.Debug()
+//        .Enrich.FromLogContext()
+//        .WriteTo.Console()
+//        .WriteTo.File(
+//            logPath,
+//            rollingInterval: RollingInterval.Day,
+//            flushToDiskInterval: TimeSpan.FromSeconds(1)) // <--- ADD THIS LINE
+//        .CreateLogger();
+//    Log.Information("Logger initialized successfully at: {LogPath}", logPath);
 
 
 
 
-}
-catch (Exception ex)
-{
-    Console.WriteLine("Failed to initialize logger: " + ex.Message);
-    Console.WriteLine($"Attempted path: {logPath}");
-    throw;
-}
+//}
+//catch (Exception ex)
+//{
+//    Console.WriteLine("Failed to initialize logger: " + ex.Message);
+//    Console.WriteLine($"Attempted path: {logPath}");
+//    throw;
+//}
+
+
+
 
 builder.Host.UseSerilog();
 
@@ -143,23 +146,23 @@ builder.Services.AddCors(options =>
 //        }
 //    });
 
-builder.Services.AddHealthChecks()
+builder.Services.AddHealthChecks();
 
-.AddCheck("Yusur-Database-Check", () =>
- {
-     try
-     {
-         using var connection = new FirebirdSql.Data.FirebirdClient.FbConnection(
-             builder.Configuration.GetConnectionString("Firebirdlocal"));
-         connection.Open();
-         return HealthCheckResult.Healthy();
-     }
-     catch (Exception ex)
-     {
-         Console.WriteLine(ex.ToString()); // TEMP
-         return HealthCheckResult.Unhealthy(ex.Message);
-     }
- });
+//.AddCheck("Yusur-Database-Check", () =>
+// {
+//     try
+//     {
+//         using var connection = new FirebirdSql.Data.FirebirdClient.FbConnection(
+//             builder.Configuration.GetConnectionString("Firebirdlocal"));
+//         connection.Open();
+//         return HealthCheckResult.Healthy();
+//     }
+//     catch (Exception ex)
+//     {
+//         Console.WriteLine(ex.ToString()); // TEMP
+//         return HealthCheckResult.Unhealthy(ex.Message);
+//     }
+// });
 
 
 

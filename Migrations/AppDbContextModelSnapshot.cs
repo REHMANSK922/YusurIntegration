@@ -73,10 +73,8 @@ namespace YusurIntegration.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ActivityId")
+                    b.HasIndex("OrderId", "ActivityId")
                         .IsUnique();
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("Activities");
                 });
@@ -205,9 +203,6 @@ namespace YusurIntegration.Migrations
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
                     b.HasKey("OrderId");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
 
                     b.ToTable("Orders");
                 });

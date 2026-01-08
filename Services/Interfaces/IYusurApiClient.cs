@@ -5,7 +5,7 @@ namespace YusurIntegration.Services.Interfaces
     public interface IYusurApiClient
     {
         Task<bool> EnsureAuthenticatedAsync();
-        Task<bool> AcceptOrderAsync(OrderAcceptRequestDto request);
-        Task<bool> RejectOrderAsync(OrderRejectRequestDto request);
+        Task<ApiErrorResponseDto?> AcceptOrderAsync(OrderAcceptRequestDto request);
+        Task<ApiErrorResponseDto?> RejectOrderAsync(OrderRejectRequestDto request);
     }
 }

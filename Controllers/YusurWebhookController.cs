@@ -138,7 +138,6 @@ namespace YusurIntegration.Controllers
                     Timestamp = DateTime.UtcNow
                 });
             }
-
         }
         [HttpPost("notifyOrderAllocation")]
         public async Task<IActionResult> NotifyOrderAllocation([FromBody] OrderAllocationDto dto)

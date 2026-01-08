@@ -7,7 +7,7 @@ namespace YusurIntegration.Models
     {
         [Key]
         public string OrderId { get; set; }
-        public OrderStatus Status { get; set; }
+        public string Status { get; set; }
         public string? FailureReason { get; set; }
 
         public DateTime Timestamp { get; set; } = DateTime.UtcNow;

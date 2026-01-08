@@ -85,9 +85,9 @@ namespace YusurIntegration.Services
             }
             return Array.Empty<string>();
         }
-        public bool IsConnected(string storeId)
+        public bool IsConnected(string branchLicense)
         {
-            return _map.ContainsKey(storeId);
+            return _map.ContainsKey(branchLicense);
         }
 
 

@@ -31,8 +31,12 @@
         public record AuthActivityDto(string id, string tradeCode, string authStatus, string rejectionReason);
 
 
+        public record StatusUpdateDto1(string vendorId, string branchLicense, string orderId, bool isParentOrder, string failureReason, string status);
 
-        public record StatusUpdateDto(string vendorId, string branchLicense, string orderId, bool isParentOrder, string failureReason, string status);
+
+        public record StatusUpdateDto(string orderId, string status, string branchLicense, string failureReason);
+
+
 
         public record OrderAcceptRequestDto(string orderId, List<AcceptActivityDto> activities);
         public record AcceptActivityDto(string id, string tradeCode, int Quantity);
@@ -44,12 +48,21 @@
         public record LoginRequestDto(string userName,string password);
         public record LoginResponseDto(string? accessToken,  List<ErrorDto>? errors);
 
-        public record ErrorDto(string message, string? field);
+        public record ApiErrorResponseDto(List<ErrorDto>? errors);
+
+        public record ErrorDto(string message, bool field);
 
         public record SubmitAuthorizationRequestDto(string orderId);
         public record ResubmitAuthorizationRequestDto( string orderId, List<AcceptActivityDto> activities);
 
 
+        public record ResponseRejectReason(string[] rejectionResaons, List<ErrorDto>? errors);
+
+        public record DispenseSuccessResponse(string orderId, string status, string message);
+
+        public record DispenseFailedResponse(string orderId, List<ErrorDto>? errors);
+
+        public record DispenseResponse(string? orderId, List<ErrorDto>? errors);
 
 
     }

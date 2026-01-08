@@ -170,12 +170,36 @@ builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
+//using (var scope = app.Services.CreateScope())
+//{
+
+//    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+//    db.Database.Migrate();
+
+//    var yusurClient = scope.ServiceProvider.GetRequiredService<IYusurApiClient>();
+//    // Fire and forget, or await it
+//    await yusurClient.EnsureAuthenticatedAsync();
+//}
+
+
 using (var scope = app.Services.CreateScope())
 {
+    try
+    {
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        db.Database.Migrate();
 
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
+        var yusurClient = scope.ServiceProvider.GetRequiredService<IYusurApiClient>();
+        await yusurClient.EnsureAuthenticatedAsync();
+    }
+    catch (Exception ex)
+    {
+        // Log the error but let the app continue to run
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        logger.LogCritical(ex, "Startup initialization failed!");
+    }
 }
+
 
 //added for linuxFore
 app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -232,8 +256,6 @@ finally
 {
     Log.CloseAndFlush();
 }
-
-
 
 
 // Add services to the container.

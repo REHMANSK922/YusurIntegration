@@ -2,12 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using YusurIntegration.Data;
 using YusurIntegration.DTOs;
+using YusurIntegration.Helpers;
 using YusurIntegration.Hubs;
 using YusurIntegration.Models;
 using YusurIntegration.Models.Enums;
 using YusurIntegration.Services.Interfaces;
 using static YusurIntegration.DTOs.YusurPayloads;
-//using static YusurIntegration.DTOs.YusurPayloads;
 namespace YusurIntegration.Services
 {
     public class OrderService : IOrderService
@@ -18,12 +18,15 @@ namespace YusurIntegration.Services
         private readonly IHubContext<YusurHub> _hub;
         private readonly ILogger<OrderService> _logger;
         private readonly ConnectionManager _cn;
-
-        public OrderService(AppDbContext db, IYusurApiClient yusur,
-            IOrderValidationService ordervalidation,
-            IHubContext<YusurHub> yhub,
-            ILogger<OrderService> logger,
-            ConnectionManager cn)
+        private readonly OrderResponseTracker _orderResponseTracker;
+        public OrderService(AppDbContext db, 
+                    IYusurApiClient yusur,
+                    IOrderValidationService ordervalidation,
+                    IHubContext<YusurHub> yhub,
+                    ILogger<OrderService> logger,
+                    ConnectionManager cn,
+                    OrderResponseTracker orderResponseTracker
+                          )
         {
             _db = db;
             _yusur = yusur;
@@ -31,22 +34,23 @@ namespace YusurIntegration.Services
             _hub = yhub;
             _logger = logger;
             _cn = cn;
+            _orderResponseTracker = orderResponseTracker;
 
         }
-
         public async Task HandleNewOrderAsync_old(NewOrderDto dto)
         {
             _logger.LogInformation($"Handling new order: {dto.orderId} for branch: {dto.branchLicense}");
 
-            var payload = System.Text.Json.JsonSerializer.Serialize(dto);
+          
             string connteted = _cn.IsConnected(dto.branchLicense) ? "YES" : "NO";
-
+            var payload = System.Text.Json.JsonSerializer.Serialize(dto);
             await _db.WebhookLogs.AddAsync(new Models.WebhookLog { WebhookType = "notifyNewOrder", 
                 OrderId = dto.orderId, 
                 BranchConnected = connteted, 
                 Payload = payload, 
                 Status = "PENDING_VALIDATION", BranchLicense = dto.branchLicense });
             await _db.SaveChangesAsync();
+            var order = Helpers.OrderMapping.MapDtoToOrder(dto);
 
             if (!_cn.IsConnected(dto.branchLicense))
             {
@@ -54,13 +58,16 @@ namespace YusurIntegration.Services
                 var rejectRequest = new OrderRejectRequestDto(dto.orderId, "Pharmacy POS Offline/No Connection");
                 await _yusur.RejectOrderAsync(rejectRequest);
 
-
                 //sending admin that branch is offline added for monitoring this option added in feature ====>
-                //await _hub.Clients.Group(dto.branchLicense).SendAsync("ReceiveOrderWithOutStockCheck", order);
+
+                // 2. Log for Admins
+                await _hub.Clients.Group("Admins").SendAsync("PosOfflineOrderReject", order);
 
                 return;
             }
 
+
+            /*
             // create order
             var order = new Order
             {
@@ -117,6 +124,9 @@ namespace YusurIntegration.Services
 
                 order.Activities.Add(activity);
             }
+
+            */
+
 
             string _orderstatus = "RECEIVED";
 
@@ -200,69 +210,178 @@ namespace YusurIntegration.Services
 
             _logger.LogInformation($"Order {order.OrderId} send successfully.");
             _logger.LogInformation($"DEBUG: Attempting to send Order {order.OrderId} to Group: '{dto.branchLicense}'");
+
             //await _hub.Clients.Group(dto.branchLicense).SendAsync("ReceiveOrderWithOutStockCheck", new
             //{
             //    Order = order
             //});
-            //    await _hub.Clients.Group(dto.branchLicense).SendAsync("ReceiveOrderWithOutStockCheck", order);
+            //await _hub.Clients.Group(dto.branchLicense).SendAsync("ReceiveOrderWithOutStockCheck", order);
+
             await _hub.Clients.Group(dto.branchLicense).SendAsync("ReceiveOrderWithOutStockCheck", dto);
         }
+        public async Task HandleNewOrderAsync_v1(NewOrderDto dto)
+        {
+            _logger.LogInformation($"New order {dto.orderId}. Checking branch {dto.branchLicense} connectivity...");
 
-        ////////////public async Task HandleNewOrderAsync(NewOrderDto dto)
-        ////////////{
-        ////////////    _logger.LogInformation($"New order {dto.orderId}. Checking branch {dto.branchLicense} connectivity...");
+            // 1. Initial State Check
+            var branchStatus = _cn.GetBranchStatus(dto.branchLicense); // Assuming this returns an object with IsConnected and LastSeen
+            bool isCurrentlyConnected = branchStatus.IsConnected;
+            DateTime? lastSeen = branchStatus.LastSeen;
 
-        ////////////    // 1. Initial State Check
-        ////////////    var branchStatus = _cn.GetBranchStatus(dto.branchLicense); // Assuming this returns an object with IsConnected and LastSeen
-        ////////////    bool isCurrentlyConnected = branchStatus.IsConnected;
-        ////////////    DateTime? lastSeen = branchStatus.LastSeen;
+            // 2. RECONNECT GRACE PERIOD
+           // If offline, but was seen within the last 60 seconds, wait 15s to see if they reconnect
+            if (!isCurrentlyConnected && lastSeen.HasValue && (DateTime.UtcNow - lastSeen.Value).TotalSeconds < 60)
+            {
+                _logger.LogInformation($"Branch {dto.branchLicense} recently offline. Waiting 15s for reconnection...");
+              // Wait up to 15 seconds for IsConnected to become true
+                for (int i = 0; i < 15; i++)
+                {
+                    await Task.Delay(1000); // Check every second
+                    if (_cn.IsConnected(dto.branchLicense))
+                    {
+                        isCurrentlyConnected = true;
+                        _logger.LogInformation($"Branch {dto.branchLicense} reconnected! Proceeding...");
+                        break;
+                    }
+                }
+            }
+          // 3. HARD REJECT (If still offline after grace period)
+            if (!isCurrentlyConnected)
+            {
+                _logger.LogWarning($"Branch {dto.branchLicense} is strictly offline. Auto-rejecting order {dto.orderId}.");
+                await AutoRejectOrder(dto.orderId, "Pharmacy POS Offline/No Connection");
+                var payload = System.Text.Json.JsonSerializer.Serialize(dto);
 
-        ////////////    // 2. RECONNECT GRACE PERIOD
-        ////////////    // If offline, but was seen within the last 60 seconds, wait 15s to see if they reconnect
-        ////////////    if (!isCurrentlyConnected && lastSeen.HasValue && (DateTime.UtcNow - lastSeen.Value).TotalSeconds < 60)
-        ////////////    {
-        ////////////        _logger.LogInformation($"Branch {dto.branchLicense} recently offline. Waiting 15s for reconnection...");
+                // 2. Log for Admins
+                await _hub.Clients.Group("Admins").SendAsync("PosOfflineOrderReject", dto.orderId);
 
-        ////////////        // Wait up to 15 seconds for IsConnected to become true
-        ////////////        for (int i = 0; i < 15; i++)
-        ////////////        {
-        ////////////            await Task.Delay(1000); // Check every second
-        ////////////            if (_cn.IsConnected(dto.branchLicense))
-        ////////////            {
-        ////////////                isCurrentlyConnected = true;
-        ////////////                _logger.LogInformation($"Branch {dto.branchLicense} reconnected! Proceeding...");
-        ////////////                break;
-        ////////////            }
-        ////////////        }
-        ////////////    }
+                string connteted = isCurrentlyConnected ? "YES" : "NO";
 
-        ////////////    // 3. HARD REJECT (If still offline after grace period)
-        ////////////    if (!isCurrentlyConnected)
-        ////////////    {
-        ////////////        _logger.LogWarning($"Branch {dto.branchLicense} is strictly offline. Auto-rejecting order {dto.orderId}.");
-        ////////////        await AutoRejectOrder(dto.orderId, "Pharmacy POS Offline/No Connection");
-        ////////////        return;
-        ////////////    }
+                await _db.WebhookLogs.AddAsync(new WebhookLog
+                {
+                    WebhookType = "notifyNewOrder",
+                    OrderId = dto.orderId,
+                    BranchConnected = connteted,
+                    Payload = payload,
+                    Status = "REJECTED DUE TO OFFLINE",
+                    BranchLicense = dto.branchLicense
+                });
+                await _db.SaveChangesAsync();
+                return;
+            }
+          // At this point, branch is confirmed and no need to save order again to avoid delay on server side, transfer order to branch directly.
 
-        ////////////    // 4. NORMAL WORKFLOW (Branch is Online)
-        ////////////    // Map, Save, and Notify SignalR
-        ////////////    var order = MapDtoToOrder(dto);
-        ////////////    _db.Orders.Add(order);
-        ////////////    await _db.SaveChangesAsync();
+            /*
+            // 4. NORMAL WORKFLOW (Branch is Online)
+            var order = Helpers.OrderMapping.MapDtoToOrder(dto);
+            _db.Orders.Add(order);
+            await _db.SaveChangesAsync();
+            */
 
-        ////////////    await _hub.Clients.Group(dto.branchLicense).SendAsync("ReceiveOrderWithOutStockCheck", dto);
+            //await _hub.Clients.Group(dto.branchLicense).SendAsync("ReceiveOrderWithOutStockCheck", dto);
 
-        ////////////    // 5. WAIT FOR PHARMACIST RESPONSE
-        ////////////    // Now wait for the pharmacist to actually click 'Accept' (30 seconds)
-        ////////////    bool clientResponded = await _orderResponseTracker.WaitForClientAsync(dto.orderId, TimeSpan.FromSeconds(30));
 
-        ////////////    if (!clientResponded)
-        ////////////    {
-        ////////////        _logger.LogWarning($"No action taken by Pharmacist on {dto.orderId} within 30s. Auto-rejecting.");
-        ////////////        await AutoRejectOrder(dto.orderId, "No response from pharmacist (Interaction Timeout)");
-        ////////////    }
-        ////////////}
+            _logger.LogInformation($"Branch {dto.branchLicense} is online. Sending order {dto.orderId} to POS...");
+            await _hub.Clients.Group(dto.branchLicense).SendAsync("NewOrderReceivedSendToPos", dto);
 
+            //Saving the order locally after sending to POS to reduce delay time for POS receiving order
+
+
+
+            // 5. WAIT FOR PHARMACIST RESPONSE
+            // Now wait for the pharmacist to actually click 'Accept' (30 seconds)
+
+            string orderid = dto.orderId;
+            string branchno = dto.branchLicense;
+
+            var clientResponded = await _orderResponseTracker.WaitForClientDataAsync(orderid, "Acceptance", TimeSpan.FromSeconds(45));
+            if (clientResponded==null)
+            {
+                _logger.LogWarning($"No action taken by Pharmacist on {dto.orderId} within 30s. Auto-rejecting.");
+                await AutoRejectOrder(dto.orderId, "No response from pharmacist (Interaction Timeout)");
+            }
+            else
+            {
+                _logger.LogWarning($"Order accepted Pharmacist on {dto.orderId} within 30s. Auto-rejecting.");
+                await HandleSendYusurOrderAccept(clientResponded,branchno);
+            }
+        }
+        public async Task HandleNewOrderAsync(NewOrderDto dto)
+        {
+            _logger.LogInformation($"New order {dto.orderId}. Checking branch {dto.branchLicense} connectivity...");
+
+            // 1. Initial State Check
+            var branchStatus = _cn.GetBranchStatus(dto.branchLicense); // Assuming this returns an object with IsConnected and LastSeen
+            bool isCurrentlyConnected = branchStatus.IsConnected;
+            DateTime? lastSeen = branchStatus.LastSeen;
+
+            // 2. RECONNECT GRACE PERIOD  If offline, but was seen within the last 60 seconds, wait 15s to see if they reconnect
+            if (!isCurrentlyConnected && lastSeen.HasValue && (DateTime.UtcNow - lastSeen.Value).TotalSeconds < 60)
+            {
+                _logger.LogInformation($"Branch {dto.branchLicense} recently offline. Waiting 15s for reconnection...");
+                // Wait up to 15 seconds for IsConnected to become true
+                for (int i = 0; i < 15; i++)
+                {
+                    await Task.Delay(1000); // Check every second
+                    if (_cn.IsConnected(dto.branchLicense))
+                    {
+                        isCurrentlyConnected = true;
+                        _logger.LogInformation($"Branch {dto.branchLicense} reconnected! Proceeding...");
+                        break;
+                    }
+                }
+            }
+            // 3. HARD REJECT (If still offline after grace period)
+            if (!isCurrentlyConnected)
+            {
+                _logger.LogWarning($"Branch {dto.branchLicense} is strictly offline. Auto-rejecting order {dto.orderId}.");
+                await AutoRejectOrder(dto.orderId, "Pharmacy POS Offline/No Connection");
+                var payload = System.Text.Json.JsonSerializer.Serialize(dto);
+
+                // 2. Log for Admins
+                await _hub.Clients.Group("Admins").SendAsync("PosOfflineOrderReject",$"Branch {dto.branchLicense} is strictly offline. Auto-rejecting order {dto.orderId}.");
+
+                string connteted = isCurrentlyConnected ? "YES" : "NO";
+                await _db.WebhookLogs.AddAsync(new WebhookLog
+                {
+                    WebhookType = "notifyNewOrder",
+                    OrderId = dto.orderId,
+                    BranchConnected = connteted,
+                    Payload = payload,
+                    Status = "REJECTED DUE TO OFFLINE",
+                    BranchLicense = dto.branchLicense
+                });
+                await _db.SaveChangesAsync();
+                return;
+            }
+            // 4. NORMAL WORKFLOW (Branch is Online)
+            // At this point, branch is confirmed and no need to save order again to avoid delay on server side, transfer order to branch directly.
+
+            _logger.LogInformation($"Branch {dto.branchLicense} is online. Sending order {dto.orderId} to POS...");
+
+            await _hub.Clients.Group(dto.branchLicense).SendAsync("NewOrderReceivedSendToPos", dto);
+            Order order = OrderMapping.MapDtoToOrder(dto);
+            _db.Orders.Add(order);
+            await _db.SaveChangesAsync();
+
+            // 5. WAIT FOR PHARMACIST RESPONSE
+            // Now wait for the pharmacist to actually click 'Accept' (45 seconds)
+
+            string orderid = dto.orderId;
+            string branchno = dto.branchLicense;
+
+            var clientResponded = await _orderResponseTracker.WaitForClientDataAsync(orderid, "Acceptance", TimeSpan.FromSeconds(45));
+            if (clientResponded == null)
+            {
+                _logger.LogWarning($"No action taken by Pharmacist on {dto.orderId} within 30s. Auto-rejecting.");
+                await AutoRejectOrder(dto.orderId, "No response from pharmacist (Interaction Timeout)");
+            }
+            else
+            {
+                _logger.LogWarning($"Order accepted Pharmacist on {dto.orderId} within 30s. Auto-rejecting.");
+                await HandleSendYusurOrderAccept(clientResponded, branchno);
+            }
+        }
         public async Task HandleOrderAllocationAsync(OrderAllocationDto dto)
         {
             var order = await _db.Orders.FirstOrDefaultAsync(o => o.OrderId == dto.orderId);
@@ -278,8 +397,8 @@ namespace YusurIntegration.Services
             }
             order.Status = "WAITING_WASFATY_APPROVAL";
             await _db.SaveChangesAsync();
+            await _hub.Clients.Group(dto.branchLicense).SendAsync("OnOrderOrderAllocation", dto);
         }
-
         public async Task<(bool Success, string? ErrorMessage, Order? Data)> HandleAuthorizationResponseAsync(AuthorizationResponseDto dto)
         {
             var payload = System.Text.Json.JsonSerializer.Serialize(dto);
@@ -346,20 +465,107 @@ namespace YusurIntegration.Services
             if (order == null) return;
             var internalstatus = dto.status;
             order.Status = dto.status;
-            if (dto.status == "ACCEPTED_BY_PROVIDER")
-            {
-                await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderAccepted", new
-                {
-                    OrderId = order.OrderId,
-                    Status = dto.status
-                });
-            }
             _db.OrderStatusHistory.Add(new OrderStatusHistory { OrderId = order.OrderId, Status = internalstatus, FailureReason = dto.failureReason });
             await _db.SaveChangesAsync();
+
+            //await _hub.Clients.Group(dto.branchLicense).SendAsync("OnOrderStatusUpdated", new
+            //{
+            //    OrderId = order.OrderId,
+            //    Status = dto.status,
+            //    FailureReason = dto.failureReason
+            //});
+
+            await _hub.Clients.Group(dto.branchLicense).SendAsync("OnOrderStatusUpdated",dto);
+
+            //await _hub.Clients.Group(dto.branchLicense).SendAsync("NewOrderReceivedSendToPos", dto);
+
+
+            //switch (dto.status)
+            //{
+            //    case "INACTIVE":
+            //        await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderAcceptedByOther", new { OrderId = order.OrderId, Status = dto.status });
+            //        break;
+            //    case "ACCEPTED_BY_PROVIDER":
+            //        await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderAccepted", new { OrderId = order.OrderId, Status = dto.status});
+            //        break;
+            //    case "REJECTED_BY_PROVIDER":
+            //        await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderRejectedByProvider", new { OrderId = order.OrderId, Status = dto.status });
+            //        break;
+            //    case "CANCELLED_BY_PROVIDER": // order cannelled by pharmacy
+            //        await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderCancelledSucess", new { OrderId = order.OrderId, Status = dto.status });
+            //        break;
+            //    case "ERX_HUB_AUTH_SUBMIT_TIMED_OUT": // authorization request not sent within time
+            //        await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderCancelledSucess", new { OrderId = order.OrderId, Status = dto.status });
+            //        break;
+            //    case "WAITING_ERX_HUB_APPROVAL": // authorization request not sent within time
+            //        await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderCancelledSucess", new { OrderId = order.OrderId, Status = dto.status });
+            //        break;
+
+            //    case "ERX_HUB_TIMED_OUT": // authorization request not sent within time
+            //        await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderCancelledSucess", new { OrderId = order.OrderId, Status = dto.status });
+            //        break;
+
+            //    case "ERX_HUB_CLAIM_SUBMIT_TIMED_OUT": // authorization request not sent within time
+            //        await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderCancelledSucess", new { OrderId = order.OrderId, Status = dto.status });
+            //        break;
+
+
+            //    case "WAITING_ERX_HUB_CLAIM_APPROVAL": // authorization request not sent within time
+            //        await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderCancelledSucess", new { OrderId = order.OrderId, Status = dto.status });
+            //        break;
+
+
+            //    case "ERX_HUB_CLAIM_FAILED": // authorization request not sent within time
+            //        await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderCancelledSucess", new { OrderId = order.OrderId, Status = dto.status });
+            //        break;
+
+
+            //    case "WAITING_PATIENT_CONFIRMATION": // authorization request not sent within time
+            //        await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderCancelledSucess", new { OrderId = order.OrderId, Status = dto.status });
+            //        break;
+
+
+
+            //    case "READY_FOR_CUSTOMER_PICKUP": // authorization request not sent within time
+            //        await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderCancelledSucess", new { OrderId = order.OrderId, Status = dto.status });
+            //        break;
+
+            //    case "DISPENSED": // authorization request not sent within time
+            //        await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderCancelledSucess", new { OrderId = order.OrderId, Status = dto.status });
+            //        break;
+
+            //    case "OUT_FOR_DELIVERY": // authorization request not sent within time
+            //        await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderCancelledSucess", new { OrderId = order.OrderId, Status = dto.status });
+            //        break;
+
+
+            //    case "RETURNED": // authorization request not sent within time
+            //        await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderCancelledSucess", new { OrderId = order.OrderId, Status = dto.status });
+            //        break;
+            //    case "DELIVERED":
+            //        await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderCancelledSucess", new { OrderId = order.OrderId, Status = dto.status });
+            //        break;
+            //    case "FAILED":
+            //        await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderCancelledSucess", new { OrderId = order.OrderId, Status = dto.status });
+            //        break;
+
+            //    default:
+            //        break;
+            //}
+
+            //if (dto.status == "ACCEPTED_BY_PROVIDER")
+            //{
+            //    await _hub.Clients.Group(dto.branchLicense).SendAsync("OrderAccepted", new
+            //    {
+            //        OrderId = order.OrderId,
+            //        Status = dto.status
+            //    });
+            //}
         }
         public async Task HandleSendYusurOrderAccept(OrderAcceptRequestDto dto, string branchno)
         {
             var errorResponse = await _yusur.AcceptOrderAsync(dto);
+
             var order = await _db.Orders.FirstOrDefaultAsync(o => o.OrderId == dto.orderId);
 
             if (errorResponse == null)
@@ -369,7 +575,6 @@ namespace YusurIntegration.Services
                     order.Status = "Submitted_to_Yusur";
                     await _db.SaveChangesAsync();
                 }
-
                 _logger.LogInformation($"Order {dto.orderId} send successfully.");
                 await _hub.Clients.Group(branchno).SendAsync("OrderSubmitted", new
                 {
@@ -399,8 +604,6 @@ namespace YusurIntegration.Services
             var rejectRequest = new OrderRejectRequestDto(orderId, reason);
             await _yusur.RejectOrderAsync(rejectRequest);
         }
-        
-
 
     }
 }

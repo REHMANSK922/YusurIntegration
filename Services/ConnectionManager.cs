@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace YusurIntegration.Services
@@ -26,8 +27,9 @@ namespace YusurIntegration.Services
     //}
     public class ConnectionManager
     {
-        // Key = branchLicense
-        // Value = HashSet of connection IDs
+        // Key = branchLicense         // Value = HashSet of connection IDs
+        
+        /*
         private readonly ConcurrentDictionary<string, HashSet<string>> _map
             = new ConcurrentDictionary<string, HashSet<string>>();
 
@@ -90,10 +92,99 @@ namespace YusurIntegration.Services
             return _map.ContainsKey(branchLicense);
         }
 
+        */
 
+
+
+        private readonly ConcurrentDictionary<string, BranchTracker> _map
+            = new ConcurrentDictionary<string, BranchTracker>();
+
+        public void Add(string branchLicense, string connectionId)
+        {
+            var tracker = _map.GetOrAdd(branchLicense, _ => new BranchTracker());
+            lock (tracker)
+            {
+                tracker.Connections.Add(connectionId);
+                tracker.IsConnected = true;
+                tracker.LastSeen = DateTime.UtcNow;
+            }
+        }
+        public void RemoveByConnectionId(string connectionId)
+        {
+            foreach (var kvp in _map)
+            {
+                var tracker = kvp.Value;
+                lock (tracker)
+                {
+                    if (tracker.Connections.Contains(connectionId))
+                    {
+                        tracker.Connections.Remove(connectionId);
+                        if (tracker.Connections.Count == 0)
+                        {
+                            tracker.IsConnected = false;
+                            tracker.LastSeen = DateTime.UtcNow;
+                        }
+                        return;
+                    }
+                }
+            }
+        }
+        public void remove(string branchLicense, string connectionId)
+        {
+            if (_map.TryGetValue(branchLicense, out var tracker))
+            {
+                lock (tracker)
+                {
+                    tracker.Connections.Remove(connectionId);
+                    if (tracker.Connections.Count == 0)
+                    {
+                        tracker.IsConnected = false;
+                        tracker.LastSeen = DateTime.UtcNow;
+                    }
+                }
+            }
+        }
+        public bool IsConnected(string branchLicense)
+        {
+            if (_map.TryGetValue(branchLicense, out var tracker))
+            {
+                lock (tracker)
+                {
+                    return tracker.IsConnected;
+                }
+            }
+            return false;
+        }
+        public (bool IsConnected, DateTime LastSeen) GetBranchStatus(string branchLicense)
+        {
+            if (_map.TryGetValue(branchLicense, out var tracker))
+            {
+                lock (tracker)
+                {
+                    return (tracker.IsConnected, tracker.LastSeen);
+                }
+            }
+            return (false, DateTime.MinValue);
+        }
+        public string[] GetConnections(string branchLicense)
+        {
+            if (_map.TryGetValue(branchLicense, out var tracker))
+            {
+                lock (tracker)
+                {
+                    return tracker.Connections.ToArray();
+                }
+            }
+            return Array.Empty<string>();
+        }
 
     }
-
+    class BranchTracker
+    {
+        public HashSet<string> Connections { get; } = new();
+        public bool IsConnected { get; set; }
+        public DateTime LastSeen { get; set; }
+    }
 
 
 }

@@ -269,6 +269,38 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "YusurIntegration.Controllers.Yusurapi",
+    "Method": "GetCities",
+    "RelativePath": "api/Yusurapi/cities/{citycode}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "citycode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YusurIntegration.Controllers.Yusurapi",
+    "Method": "Getactivemedications",
+    "RelativePath": "api/Yusurapi/medications/{patientId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "YusurIntegration.Controllers.WeatherForecastController",
     "Method": "Get",
     "RelativePath": "WeatherForecast",

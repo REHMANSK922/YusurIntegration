@@ -31,7 +31,6 @@
         public record AuthActivityDto(string id, string tradeCode, string authStatus, string rejectionReason);
 
 
-        public record StatusUpdateDto1(string vendorId, string branchLicense, string orderId, bool isParentOrder, string failureReason, string status);
 
 
         public record StatusUpdateDto(string orderId, string status, string branchLicense, string failureReason);
@@ -44,6 +43,8 @@
         public record OrderRejectRequestDto(string orderId, string rejectionReason);
 
         public record OrderCancelRequestDto(string orderId,string cancellationReason);
+
+        public record OrderConfirmPickup(string orderId, string pickUpOtp);
 
         public record LoginRequestDto(string userName,string password);
         public record LoginResponseDto(string? accessToken,  List<ErrorDto>? errors);
@@ -58,12 +59,18 @@
 
         public record ResponseRejectReason(string[] rejectionResaons, List<ErrorDto>? errors);
 
-        public record DispenseSuccessResponse(string orderId, string status, string message);
+        public record DispenseSuccessResponse(string? orderId, List<ErrorDto>? errors);
+  
 
         public record DispenseFailedResponse(string orderId, List<ErrorDto>? errors);
-
         public record DispenseResponse(string? orderId, List<ErrorDto>? errors);
 
+        public record City(string id,string englishName,string arabicName);
+
+        public record ItemGtinDetailDto(string ItemNo, string barcode, string ItemName, decimal cprice, decimal sprice, string gtin, int vatper);
+
+        public record OrderSubmittedResponse(string orderId, string status, string message);
+        public record OrderFailedResponse(string orderId, List<ErrorDto>? errors);
 
     }
 }

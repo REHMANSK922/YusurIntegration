@@ -23,24 +23,19 @@ namespace YusurIntegration.Controllers
         private readonly SignatureValidationService _sig;
         private ILogger<YusurWebhookController> _logger;
 
-
-        //private readonly ConnectionManager _connections;
-
+       //private readonly ConnectionManager _connections;
 
         public YusurWebhookController(
             AppDbContext db,
             IOrderService orders,
             SignatureValidationService sig,
             ILogger<YusurWebhookController> logger
-
- 
             )
         {
             _db = db;
             _orders = orders;
             _sig = sig;
             _logger = logger;
-          
 
         }
         private bool ValidateSecret()

@@ -13,5 +13,7 @@ namespace YusurIntegration.Services.Interfaces
         Task HandleStatusUpdateAsync(YusurPayloads.StatusUpdateDto dto);
 
         Task HandleSendYusurOrderAccept(YusurPayloads.OrderAcceptRequestDto dto,string branchno);
+
+        Task AutoRejectOrder(string orderId, string reason);
     }
 }

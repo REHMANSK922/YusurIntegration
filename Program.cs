@@ -4,6 +4,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Scalar.AspNetCore;
 using Serilog;
 using YusurIntegration.Data;
+using YusurIntegration.Helpers;
 using YusurIntegration.Hubs;
 using YusurIntegration.Repositories;
 using YusurIntegration.Repositories.Interfaces;
@@ -79,6 +80,8 @@ builder.Services.AddScoped<IPendingMessageRepository, PendingMessageRepository>(
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
 
+
+
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IStockService, StockService>();
 builder.Services.AddScoped<IOrderValidationService, OrderValidationService>();
@@ -86,8 +89,9 @@ builder.Services.AddScoped<IApprovedDrugService, ApprovedDrugService>();
 builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
 
 builder.Services.AddScoped <IDatabaseService, DatabaseService>();
- 
 
+
+builder.Services.AddSingleton<OrderResponseTracker>();
 
 builder.Services.AddSingleton<ConnectionManager>();
 

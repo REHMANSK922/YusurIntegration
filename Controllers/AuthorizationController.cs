@@ -13,7 +13,6 @@ namespace YusurIntegration.Controllers
     public class AuthorizationController : ControllerBase
     {
 
-        
         private readonly IAuthorizationService _authService;
         public AuthorizationController(IAuthorizationService authService)
         {
@@ -23,11 +22,9 @@ namespace YusurIntegration.Controllers
         public async Task<IActionResult> Submit(string orderId)
         {
             var result = await _authService.SubmitAuthorizationAsync(orderId);
-
             if (result.Success) return Ok(new { message = result.Message });
             return BadRequest(new { error = result.Message });
         }
-
         [HttpPost("resubmit")]
         public async Task<IActionResult> Resubmit([FromBody] ResubmitAuthorizationRequestDto dto)
         {

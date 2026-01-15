@@ -16,11 +16,12 @@ namespace YusurIntegration.Services
         private readonly ITokenRepository _tokenRepo;
         private readonly string? _base;
         
-        private readonly ILogger<YusurApiClient> _logger;
+        private readonly ILogger<AuthorizationService> _logger;
         private readonly AppDbContext _db;
 
         public AuthorizationService(HttpClient http, ITokenRepository tokenRepo,
-            IConfiguration config, ILogger<YusurApiClient> logger, 
+            IConfiguration config, 
+            ILogger<AuthorizationService> logger, 
             AppDbContext db)
         {
             _httpClient = http;
@@ -72,15 +73,12 @@ namespace YusurIntegration.Services
 
            public async Task<(bool Success, string Message)> SubmitAuthorizationAsync(string orderId)
             {
-            
-              
             var order = await _db.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
                 if (order == null) return (false, "Order not found in database.");
 
                 var tokenObj = await _tokenRepo.GetValidTokenAsync();
                 var token = tokenObj?.AccessToken;
-            var url = _base.TrimEnd('/') + "/api/submitAuthorization";
-
+                var url = _base.TrimEnd('/') + "/api/submitAuthorization";
             var request = new HttpRequestMessage(HttpMethod.Post, url);
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);  
                 request.Content = JsonContent.Create(new { orderId });  

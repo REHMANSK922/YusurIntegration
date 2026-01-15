@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using YusurIntegration.Data;
 using YusurIntegration.DTOs;
+using YusurIntegration.Helpers;
+using YusurIntegration.Models;
 using YusurIntegration.Services;
 using YusurIntegration.Services.Interfaces;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static YusurIntegration.DTOs.YusurPayloads;
 namespace YusurIntegration.Hubs
 {
@@ -14,13 +17,19 @@ namespace YusurIntegration.Hubs
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly ILogger<YusurHub> _logger;
         private readonly IOrderService _orderService;
+        private readonly OrderResponseTracker _orderResponseTracker;
 
-        public YusurHub(ConnectionManager connections, IServiceScopeFactory scopeFactory, ILogger<YusurHub> logger, IOrderService orderService)
+        public YusurHub(ConnectionManager connections,
+            IServiceScopeFactory scopeFactory, 
+            ILogger<YusurHub> logger,
+            IOrderService orderService , 
+            OrderResponseTracker orderResponseTracker)
             {
             _cm = connections;
             _scopeFactory = scopeFactory;
             _logger = logger;
             _orderService = orderService;
+            _orderResponseTracker = orderResponseTracker;
         }
         //public override Task OnConnectedAsync()
         //{
@@ -81,7 +90,6 @@ namespace YusurIntegration.Hubs
                }
                await base.OnConnectedAsync();
             }
-
             public async Task RegisterClientInfo(string license, string posName)
             {
                 if (!string.IsNullOrEmpty(license))
@@ -97,7 +105,6 @@ namespace YusurIntegration.Hubs
                 _cm.RemoveByConnectionId(Context.ConnectionId);
                 await base.OnDisconnectedAsync(exception);
             }
-
             private async Task ProcessPendingMessages(string connId, string branch)
         {
             using var scope = _scopeFactory.CreateScope();
@@ -124,64 +131,84 @@ namespace YusurIntegration.Hubs
                 _logger.LogError(ex, "Error processing pending messages for branch {Branch}", branch);
             }
         }
-
-          // public async Task ConfirmOrderAllocation(YusurPayloads.OrderAcceptRequestDto acceptdto,string branch)
-           public async Task ConfirmOrderStockAvailable(YusurPayloads.OrderAcceptRequestDto acceptdto, string branch)
-           {
-             // 1. Logic to call Yusur API (Accept/Reject) via your Service
-            await _orderService.HandleSendYusurOrderAccept(acceptdto, branch);
-           // 2. Log for Admins
-          //await Clients.Group("Admins").SendAsync("AdminLog", $"Order {acceptdto.orderId} was {(isAccepted ? "Accepted" : "Rejected")} by branch.");
-            await Clients.Group("Admins").SendAsync("AdminLog", $"Order {acceptdto.orderId} was  Accepted by branch.{branch}"); // add branch info from cleint side.. 
-
-          }
-        public async Task RequestPrescriptionDispense(string orderId)
-        {
-            // 1. Get the branch license from the current connection context
-            var branchLicense = Context.Items["BranchLicense"] as string;
-
-            // 2. Fetch the data from your database to fill the Dispense DTO
-            var order = await _db.Orders
-                .Include(o => o.Patient)
-                .Include(o => o.ShippingAddress)
-                .FirstOrDefaultAsync(o => o.OrderId == orderId);
-
-            if (order == null) return;
-
-            // 3. Map local order to the Dispense Request we just defined
-            var dispenseReq = new PrescriptionDispenseRequest
+            public async Task ConfirmOrderStockAvailable(OrderAcceptRequestDto acceptdto)
             {
-                PatientNationalId = order.Patient.nationalId,
-                PrescriptionReferenceNumber = order.ErxReference,
-                IsPickup = order.IsPickup,
-                ShippingAddress = new ShippingAddressDto
-                {
-                    streetAddress1 = order.ShippingAddress.addressLine1,
-                    phone = order.Patient.phone, // Ensure this is captured
-                    cityId = order.ShippingAddress.CityId, // From your DB
-                    coordinates = new CoordinatesDto
-                    {
-                        latitude = (float)order.ShippingAddress.Coordinates.latitude,
-                        longitude = (float)order.ShippingAddress.Coordinates.longitude
-                    }
-                }
-            };
 
-            // 4. Call the Yusur API service
-            var response = await _yusurService.PrescriptionDispenseAsync(dispenseReq);
+                var branch = Context.Items["BranchName"] as string;
+               _orderResponseTracker.SetResult(acceptdto.orderId, "Acceptance", acceptdto);
+            //// 1. Logic to call Yusur API (Accept/Reject) via your Service
+            //    await _orderService.HandleSendYusurOrderAccept(acceptdto, branch);
+            //    // 2. Log for Admins
+            //    await Clients.Group("Admins").SendAsync("AdminLog", $"Order {acceptdto.orderId} was  Accepted by branch.{branch}"); // add branch info from cleint side.. 
 
-            // 5. Tell the client if it worked or failed
-            if (response?.errors == null)
-            {
-                order.Status = "DISPENSED";
-                await _db.SaveChangesAsync();
-                await Clients.Caller.SendAsync("DispenseSuccess", orderId);
             }
-            else
+            public async Task OrderReject(OrderAcceptRequestDto acceptdto, string branch, string rejectedreason)
             {
-                await Clients.Caller.SendAsync("DispenseFailed", orderId, response.errors);
+            // 1. Logic to call Yusur API (Accept/Reject) via your Service
+                await _orderService.AutoRejectOrder(acceptdto.orderId, rejectedreason);
+            // 2. Log for Admins
+                await Clients.Group("Admins").SendAsync("AdminLog", $"Order {acceptdto.orderId} was  Accepted by branch.{branch}"); // add branch info from cleint side.. 
             }
-        }
+            public async Task OrderCancel(OrderAcceptRequestDto acceptdto, string branch,string rejectedreason)
+            {
+                // 1. Logic to call Yusur API (Accept/Reject) via your Service
+                    await _orderService.AutoRejectOrder(acceptdto.orderId, rejectedreason);
+                // 2. Log for Admins
+                    await Clients.Group("Admins").SendAsync("AdminLog", $"Order {acceptdto.orderId} was  Accepted by branch.{branch}"); // add branch info from cleint side.. 
+            }
+
+
+
+
+
+        ////    public async Task RequestPrescriptionDispense(string orderId)
+        ////    {
+        ////    // 1. Get the branch license from the current connection context
+        ////    var branchLicense = Context.Items["BranchLicense"] as string;
+
+        ////    // 2. Fetch the data from your database to fill the Dispense DTO
+        ////    var order = await _db.Orders
+        ////        .Include(o => o.Patient)
+        ////        .Include(o => o.ShippingAddress)
+        ////        .FirstOrDefaultAsync(o => o.OrderId == orderId);
+
+        ////    if (order == null) return;
+
+        ////    // 3. Map local order to the Dispense Request we just defined
+        ////    var dispenseReq = new PrescriptionDispenseRequest
+        ////    {
+        ////        PatientNationalId = order.Patient.nationalId,
+        ////        PrescriptionReferenceNumber = order.ErxReference,
+        ////        IsPickup = order.IsPickup,
+        ////        ShippingAddress = new ShippingAddressDto
+        ////        {
+        ////            streetAddress1 = order.ShippingAddress.addressLine1,
+        ////            phone = order.Patient.phone, // Ensure this is captured
+        ////            cityId = order.ShippingAddress.CityId, // From your DB
+        ////            coordinates = new CoordinatesDto
+        ////            {
+        ////                latitude = (float)order.ShippingAddress.Coordinates.latitude,
+        ////                longitude = (float)order.ShippingAddress.Coordinates.longitude
+        ////            }
+        ////        }
+        ////    };
+
+        ////    // 4. Call the Yusur API service
+        ////    var response = await _yusurService.PrescriptionDispenseAsync(dispenseReq);
+
+        ////    // 5. Tell the client if it worked or failed
+        ////    if (response?.errors == null)
+        ////    {
+        ////        order.Status = "DISPENSED";
+        ////        await _db.SaveChangesAsync();
+        ////        await Clients.Caller.SendAsync("DispenseSuccess", orderId);
+        ////    }
+        ////    else
+        ////    {
+        ////        await Clients.Caller.SendAsync("DispenseFailed", orderId, response.errors);
+        ////    }
+        ////}
+
 
 
 

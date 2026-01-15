@@ -3,7 +3,7 @@ using static YusurIntegration.DTOs.YusurPayloads;
 
 namespace YusurIntegration.Helpers
 {
-    public static class HelperClass
+    public static class OrderMapping
     {
         public static Order MapDtoToOrder(NewOrderDto dto)
         {
@@ -69,4 +69,5 @@ namespace YusurIntegration.Helpers
             return order;
         }
     }
+
 }
